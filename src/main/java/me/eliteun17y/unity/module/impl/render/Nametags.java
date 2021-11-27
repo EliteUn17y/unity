@@ -1,6 +1,7 @@
 package me.eliteun17y.unity.module.impl.render;
 
 import me.eliteun17y.unity.event.Subscribe;
+import me.eliteun17y.unity.event.impl.EventRenderLivingLabel;
 import me.eliteun17y.unity.event.impl.EventRenderWorld;
 import me.eliteun17y.unity.module.Category;
 import me.eliteun17y.unity.module.Module;
@@ -37,8 +38,6 @@ public class Nametags extends Module {
 
     @Subscribe
     public void onRenderWorld(EventRenderWorld event) {
-        // TODO: disable vanilla nametags
-
         for(Entity entity : mc.world.loadedEntityList) {
             if(entity == mc.player) continue;
             if(players.getObject() && EntityUtil.isEntityPlayer(entity))
@@ -50,5 +49,11 @@ public class Nametags extends Module {
             else if(other.getObject())
                 NametagUtils.drawNametag(entity, event.getPartialTicks(), armor.getObject(), background.getObject(), health.getObject(), heldItem.getObject(), maxHealth.getObject(), ping.getObject(), textColor.getObject(), backgroundBorder.getObject(), backgroundFill.getObject());
         }
+    }
+
+    @Subscribe
+    public void onRenderLivingLabel(EventRenderLivingLabel event) {
+        if(event.isPre())
+            event.setCancelled(true);
     }
 }

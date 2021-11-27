@@ -14,7 +14,7 @@ import org.lwjgl.input.Keyboard;
 import java.util.ArrayList;
 
 public class Offhand extends Module {
-    public ModeValue mode = new ModeValue(this, "Mode", "Totem of Undying", "Totem of Undying", "Golden Apple");
+    public ModeValue mode = new ModeValue(this, "Mode", "Totem of Undying", "Totem of Undying", "End Crystal", "Golden Apple");
 
     public Offhand() {
         super("Offhand", "Automatically puts items in your offhand.", Category.PLAYER, Keyboard.KEY_NONE);
@@ -30,6 +30,9 @@ public class Offhand extends Module {
             case "Golden Apple":
                 item = Items.GOLDEN_APPLE;
                 break;
+            case "End Crystal":
+                item = Items.END_CRYSTAL;
+                break;
         }
 
         assert item != null;
@@ -38,7 +41,6 @@ public class Offhand extends Module {
             for(int i = 0; i < mc.player.inventoryContainer.getInventory().size(); i++) {
                 ItemStack itemStack = mc.player.inventoryContainer.getInventory().get(i);
                 if(itemStack.getItem() == item) {
-                    // TODO: Make this work
                     mc.playerController.windowClick(mc.player.inventoryContainer.windowId, i, 0, ClickType.PICKUP, mc.player);
                     mc.playerController.windowClick(mc.player.inventoryContainer.windowId, 45, 0, ClickType.PICKUP, mc.player);
                     mc.playerController.windowClick(mc.player.inventoryContainer.windowId, i, 0, ClickType.PICKUP, mc.player);
