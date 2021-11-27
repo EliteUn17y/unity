@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "compatibilityLevel": "JAVA_8",
+  "package": "me.eliteun17y.unity.mixin.impl",
+  "refmap": "mixins.unity.refmap.json",
+  "client": [
+    "MixinEntity",
+    "MixinEntityPlayer",
+    "MixinEntityPlayerSP",
+    "MixinLayerSheepWool",
+    "MixinMinecraft",
+    "MixinNetworkManager",
+    "MixinRenderManager"
+  ]
+}
