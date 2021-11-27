@@ -62,6 +62,11 @@ public class Login extends GuiScreen {
             RenderHelper.drawFilledRoundedRectangle(x, y, x + 200, y + 40, 5, UIUtil.getNormalColor2().getRGB());
             FontManager.instance.robotoLightSmall.drawString("Name: " + alt.getName(), x + 6 + 26, y + 20 - (FontManager.instance.robotoLightSmall.getStringHeight("Name: " + alt.getName()) / 2), UIUtil.getFontColor().getRGB());
 
+            if(alt.image == null) {
+                y += 52;
+                break;
+            }
+
             DynamicTexture dynamicTexture = new DynamicTexture(alt.image);
             GL11.glBindTexture(GL11.GL_TEXTURE_2D, dynamicTexture.getGlTextureId());
             GlStateManager.color(1, 1, 1);
@@ -106,10 +111,15 @@ public class Login extends GuiScreen {
 
         if(addMenuOpened) {
             if(mouseX >= sr.getScaledWidth() / 2.0f - 35 && mouseY >= sr.getScaledHeight() / 2.0f + 38 && mouseX <= sr.getScaledWidth() / 2.0f + 35 && mouseY <= sr.getScaledHeight() / 2.0f + 58) {
-                MinecraftProfile minecraftProfile = Authenticator.getAccount(email.getText(), password.getText());
-                if(minecraftProfile == null) return;
-                Unity.instance.altManager.add(new Alt(minecraftProfile.name, email.getText(), password.getText(), minecraftProfile.uuid));
-                System.out.println("Added alt.");
+                if(password.getText().isEmpty()) {
+                    Unity.instance.altManager.add(new Alt(email.getText(), email.getText(), "", null));
+                }else {
+                    MinecraftProfile minecraftProfile = Authenticator.getAccount(email.getText(), password.getText());
+                    if(minecraftProfile == null) return;
+                    System.out.println(minecraftProfile);
+
+                    Unity.instance.altManager.add(new Alt(minecraftProfile.name, email.getText(), password.getText(), minecraftProfile.uuid));
+                }
                 addMenuOpened = false;
             }
 
@@ -121,10 +131,16 @@ public class Login extends GuiScreen {
 
             for(Alt alt : Unity.instance.altManager.getRegistry()) {
                 if(mouseX >= x && mouseY >= y && mouseX <= x + 200 && y <= y + 40) {
-                    MinecraftProfile minecraftProfile = Authenticator.getAccount(alt.getEmail(), alt.getPassword());
-                    assert minecraftProfile != null;
-                    Session session = new Session(minecraftProfile.name, minecraftProfile.uuid.toString(), minecraftProfile.jwt, "mojang");
-                    ObfuscationReflectionHelper.setPrivateValue(Minecraft.class, mc, session, "field_71449_j"); // field_71449_j = session
+                    if(alt.getUuid() == null) {
+                        Session session = new Session(alt.getName(), "", "", "mojang");
+                        ObfuscationReflectionHelper.setPrivateValue(Minecraft.class, mc, session, "field_71449_j"); // field_71449_j = session
+
+                    }else {
+                        MinecraftProfile minecraftProfile = Authenticator.getAccount(alt.getEmail(), alt.getPassword());
+                        assert minecraftProfile != null;
+                        Session session = new Session(minecraftProfile.name, minecraftProfile.uuid.toString(), minecraftProfile.jwt, "mojang");
+                        ObfuscationReflectionHelper.setPrivateValue(Minecraft.class, mc, session, "field_71449_j"); // field_71449_j = session
+                    }
                 }
 
                 y += 52;

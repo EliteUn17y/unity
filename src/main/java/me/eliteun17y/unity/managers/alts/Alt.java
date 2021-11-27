@@ -20,6 +20,8 @@ public class Alt {
         this.password = password;
         this.uuid = uuid;
 
+        if(uuid == null) return;
+
         String url = "https://crafatar.com/avatars/" + uuid;
         try {
             URL u = new URL(url);

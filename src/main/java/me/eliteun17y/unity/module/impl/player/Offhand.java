@@ -14,7 +14,7 @@ import org.lwjgl.input.Keyboard;
 import java.util.ArrayList;
 
 public class Offhand extends Module {
-    public ModeValue mode = new ModeValue("Mode", "Totem of Undying", "Totem of Undying", "Golden Apple");
+    public ModeValue mode = new ModeValue(this, "Mode", "Totem of Undying", "Totem of Undying", "Golden Apple");
 
     public Offhand() {
         super("Offhand", "Automatically puts items in your offhand.", Category.PLAYER, Keyboard.KEY_NONE);
@@ -42,8 +42,7 @@ public class Offhand extends Module {
                     mc.playerController.windowClick(mc.player.inventoryContainer.windowId, i, 0, ClickType.PICKUP, mc.player);
                     mc.playerController.windowClick(mc.player.inventoryContainer.windowId, 45, 0, ClickType.PICKUP, mc.player);
                     mc.playerController.windowClick(mc.player.inventoryContainer.windowId, i, 0, ClickType.PICKUP, mc.player);
-                    /*mc.playerController.windowClick(mc.player.inventoryContainer.windowId, 45, 0, ClickType.PICKUP, mc.player);
-                    mc.playerController.windowClick(mc.player.inventoryContainer.windowId, i, 0, ClickType.PICKUP, mc.player);*/
+
                     mc.playerController.updateController();
                 }
             }
