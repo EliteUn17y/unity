@@ -2,6 +2,7 @@ package me.eliteun17y.unity.window.impl;
 
 import me.eliteun17y.unity.Unity;
 import me.eliteun17y.unity.managers.friend.Friend;
+import me.eliteun17y.unity.managers.friend.FriendManager;
 import me.eliteun17y.unity.util.font.manager.FontManager;
 import me.eliteun17y.unity.util.ui.CustomFontTextBox;
 import me.eliteun17y.unity.util.ui.RenderHelper;
@@ -73,11 +74,19 @@ public class Friends extends Window {
 
         if(!adding) {
             float y = this.y + FontManager.instance.robotoRegular.getStringHeight("Friends") + 4;
-            for(Friend friend : Unity.instance.friendManager.getRegistry()) {
-                if(mouseX >= x && mouseX <= x + FontManager.instance.robotoLightSmall.getStringWidth(friend.name) && mouseY >= y && mouseY <= FontManager.instance.robotoLightSmall.getStringHeight(friend.name)) {
-                    Unity.instance.friendManager.remove(friend);
+            for(int i = 0; i < Unity.instance.friendManager.getRegistry().size(); i++) {
+                Friend friend = Unity.instance.friendManager.get(i);
+
+                FontManager.instance.robotoLightSmall.drawString(friend.name, x, y, UIUtil.getFontColor().getRGB());
+                if(mouseButton == 0) {
+                    if(mouseX >= x && mouseX <= x + FontManager.instance.robotoRegularSmall.getStringWidth(friend.name)) {
+                        Unity.instance.friendManager.getRegistry().removeIf(friend1 -> friend1.equals(friend));
+                    }
                 }
                 y += FontManager.instance.robotoLightSmall.getStringHeight(friend.name);
+                if(y > this.y + height) {
+                    height += FontManager.instance.robotoLightSmall.getStringHeight(friend.name);
+                }
             }
         }
 

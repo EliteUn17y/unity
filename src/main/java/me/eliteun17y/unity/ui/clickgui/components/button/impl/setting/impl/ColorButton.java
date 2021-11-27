@@ -29,7 +29,6 @@ public class ColorButton extends SettingButton {
         setColor(value.getObject());
         alpha = value.getObject().getAlpha();
         float[] hsb = Color.RGBtoHSB(value.getObject().getRed(), value.getObject().getBlue(), value.getObject().getGreen(), null);
-        System.out.println(hsb[2]);
         brightness = (int) (hsb[2] * 100);
     }
 

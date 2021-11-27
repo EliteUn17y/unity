@@ -67,8 +67,22 @@ public class ModuleButton implements Button {
             RenderHelper.drawFilledRoundedRectangleWithDeadzones((int) (x + (90/2) - width/2), (int) this.y, (int) ((x + (90/2) - width/2) + width), (int) (this.y + height), 8, module.isToggled() ? UIUtil.getPreferredColor().getRGB() : UIUtil.getNormalColor().getRGB(), 0,  panelY);
 
             if(panelY < (this.y + height / 2 - FontManager.instance.robotoLightSmall.getStringHeight(module.getName()) / 2) + FontManager.instance.robotoLightSmall.getStringHeight(module.getName()) && panelY < this.y + height / 2 - FontManager.instance.robotoLightSmall.getStringHeight(module.getName())/2) return;
+            // (width - amount of pixels to shorten it) / width
+            float width = FontManager.instance.robotoLightSmall.getStringWidth(module.getName());
+            float amountOffscreen = (width - 70) + 3;
+            if(amountOffscreen >= 0) {
+                GlStateManager.scale((70 - amountOffscreen) / 70, (70 - amountOffscreen) / 70, (70 - amountOffscreen) / 70);
+            }
 
-            FontManager.instance.robotoLightSmall.drawStringWithDeadzone(module.getName(), x + (90.0f / 2) - FontManager.instance.robotoLightSmall.getStringWidth(module.getName())/2, (int) this.y + height / 2 - FontManager.instance.robotoLightSmall.getStringHeight(module.getName())/2, UIUtil.getFontColor().getRGB(), 0, (y / 2) + 110);
+            if(amountOffscreen >= 0) {
+                FontManager.instance.robotoLightSmall.drawStringWithDeadzone(module.getName(), (x + (90.0f / 2) - (FontManager.instance.robotoRegularSmall.getStringWidth(module.getName()) * ((70 - amountOffscreen) / 70)) / 2) / ((70 - amountOffscreen) / 70), (int) (this.y + height / 2 - (FontManager.instance.robotoLightSmall.getStringHeight(module.getName()) * ((70 - amountOffscreen) / 70)) / 2) / ((70 - amountOffscreen) / 70), UIUtil.getFontColor().getRGB(), 0, (y / 2) + 110);
+            }else {
+                FontManager.instance.robotoLightSmall.drawStringWithDeadzone(module.getName(), x + (90.0f / 2) - FontManager.instance.robotoLightSmall.getStringWidth(module.getName())/2, (int) this.y + height / 2 - FontManager.instance.robotoLightSmall.getStringHeight(module.getName())/2, UIUtil.getFontColor().getRGB(), 0, (y / 2) + 110);
+
+            }
+            if(amountOffscreen >= 0) {
+                GlStateManager.scale(1 / ((70 - amountOffscreen) / 70), 1 / ((70 - amountOffscreen) / 70), 1 / ((70 - amountOffscreen) / 70));
+            }
         }
 
         if(opened) {

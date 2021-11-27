@@ -28,12 +28,12 @@ public class ModeButton extends SettingButton {
             for(String str : ((ModeValue)value).getModes()) {
                 y += FontManager.instance.robotoLightSmall.getStringHeight(str) + 4;
             }
-            RenderHelper.drawFilledRoundedRectangleWithSeparateFillColor((int) x, (int) this.y, (int) x + 100, (int) (this.y + FontManager.instance.robotoLightSmall.getStringHeight(value.getName()) + y), 3, UIUtil.getNormalColor().getRGB(), new Color(UIUtil.getNormalColor().getRed(), UIUtil.getNormalColor().getGreen(), UIUtil.getNormalColor().getBlue(), 100).getRGB());
+            RenderHelper.drawFilledRoundedRectangleWithSeparateFillColor((int) x, (int) this.y, (int) x + 100, (int) (this.y + FontManager.instance.robotoLightSmall.getStringHeight(value.getName()) + y), 3, UIUtil.getNormalColor2().getRGB(), new Color(UIUtil.getNormalColor2().getRed(), UIUtil.getNormalColor2().getGreen(), UIUtil.getNormalColor2().getBlue(), 100).getRGB());
 
             //Minecraft.getMinecraft().renderEngine.bindTexture(UIUtil.getModeExtended());
             //Gui.drawScaledCustomSizeModalRect((int) x, (int) this.y, 0, 0, 60, (int) FontManager.instance.robotoLightSmall.getStringHeight(value.getName()) + y, 60,  (int) FontManager.instance.robotoLightSmall.getStringHeight(value.getName()) + y, 60, (int) FontManager.instance.robotoLightSmall.getStringHeight(value.getName()) + y);
         } else
-            RenderHelper.drawFilledRoundedRectangleWithSeparateFillColor((int) x, (int) y, (int) x + 100, (int) (y + FontManager.instance.robotoLightSmall.getStringHeight(value.getName())), 3, UIUtil.getNormalColor().getRGB(), new Color(UIUtil.getNormalColor().getRed(), UIUtil.getNormalColor().getGreen(), UIUtil.getNormalColor().getBlue(), 100).getRGB());
+            RenderHelper.drawFilledRoundedRectangleWithSeparateFillColor((int) x, (int) y, (int) x + 100, (int) (y + FontManager.instance.robotoLightSmall.getStringHeight(value.getName())), 3, UIUtil.getNormalColor2().getRGB(), new Color(UIUtil.getNormalColor2().getRed(), UIUtil.getNormalColor2().getGreen(), UIUtil.getNormalColor2().getBlue(), 100).getRGB());
 
         //Minecraft.getMinecraft().renderEngine.bindTexture(UIUtil.getDropdown());
         //Gui.drawScaledCustomSizeModalRect((int) x + 48, (int) ((int) y + 2.5f), 0, 0, 10,  10, 10,  10, 10, 10);

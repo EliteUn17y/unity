@@ -34,6 +34,7 @@ public class EventBus {
     public void post(Event event) {
         for(int i = 0; i < REGISTRY.size(); i++) {
             Data data = REGISTRY.get(i);
+            if(data == null || data.method == null || data.owner == null) return;
             Method method = data.method;
             Object owner = data.owner;
             if(method.isAnnotationPresent(Subscribe.class) && method.getParameterTypes().length == 1) {

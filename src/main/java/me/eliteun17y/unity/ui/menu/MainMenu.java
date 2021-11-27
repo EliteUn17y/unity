@@ -3,6 +3,7 @@ package me.eliteun17y.unity.ui.menu;
 import me.eliteun17y.unity.module.Category;
 import me.eliteun17y.unity.ui.clickgui.components.Panel;
 import me.eliteun17y.unity.ui.login.Login;
+import me.eliteun17y.unity.ui.settings.Settings;
 import me.eliteun17y.unity.util.Reference;
 import me.eliteun17y.unity.util.font.manager.FontManager;
 import me.eliteun17y.unity.util.ui.RenderHelper;
@@ -32,17 +33,18 @@ public class MainMenu extends GuiScreen {
         // Title
 
         GlStateManager.scale(4, 4, 4);
-        FontManager.instance.robotoRegular.drawString(Reference.NAME + " " + Reference.VERSION, (sr.getScaledWidth() / 2.0f - (FontManager.instance.robotoRegular.getStringWidth(Reference.NAME + " " + Reference.VERSION) / 2.0f * 4.0f)) / 4.0f, (sr.getScaledHeight() / 4.0f) / 4.0f, UIUtil.getOppositeFontColor().getRGB());
+            FontManager.instance.robotoRegular.drawString(Reference.NAME + " " + Reference.VERSION, (sr.getScaledWidth() / 2.0f - (FontManager.instance.robotoRegular.getStringWidth(Reference.NAME + " " + Reference.VERSION) / 2.0f * 4.0f)) / 4.0f, (sr.getScaledHeight() / 4.0f) / 4.0f, UIUtil.getOppositeFontColor().getRGB());
         GlStateManager.scale(0.25, 0.25, 0.25);
 
         // Buttons
 
         String[] buttons = { "Singleplayer", "Multiplayer", "Login", "Unity Settings", "Settings", "Language", "Quit" };
 
-        float width = 100;
+
+        float width = 80;
         float height = 15;
 
-        float x = (sr.getScaledWidth() / 2.0f - (120 * (buttons.length)) / 2.0f) + 10;
+        float x = (sr.getScaledWidth() / 2.0f - (90 * (buttons.length)) / 2.0f) + 10;
         float y = (sr.getScaledHeight() / 1.2f) - height / 2;
 
         for(String str : buttons) {
@@ -53,7 +55,7 @@ public class MainMenu extends GuiScreen {
             }
             FontManager.instance.robotoRegularSmall.drawString(str, x + (width / 2) - FontManager.instance.robotoRegularSmall.getStringWidth(str) / 2, y + (height / 2) - FontManager.instance.robotoRegularSmall.getStringHeight(str) / 2, UIUtil.getOppositeFontColor().getRGB());
 
-            x += 120;
+            x += 90;
         }
     }
 
@@ -62,12 +64,12 @@ public class MainMenu extends GuiScreen {
         ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
 
         String[] buttons = { "Singleplayer", "Multiplayer", "Login", "Unity Settings", "Settings", "Language", "Quit" };
-        GuiScreen[] buttonScreens = { new GuiWorldSelection(this), new GuiMultiplayer(this), new Login(), null, new GuiOptions(this, mc.gameSettings), new GuiLanguage(this, mc.gameSettings, mc.getLanguageManager()) };
+        GuiScreen[] buttonScreens = { new GuiWorldSelection(this), new GuiMultiplayer(this), new Login(), new Settings(), new GuiOptions(this, mc.gameSettings), new GuiLanguage(this, mc.gameSettings, mc.getLanguageManager()) };
 
-        float width = 100;
+        float width = 80;
         float height = 15;
 
-        float x = (sr.getScaledWidth() / 2.0f - (120 * (buttons.length)) / 2.0f) + 10;
+        float x = (sr.getScaledWidth() / 2.0f - (90 * (buttons.length)) / 2.0f) + 10;
         float y = (sr.getScaledHeight() / 1.2f) - height / 2;
 
         for(int i = 0; i < buttons.length; i++) {
@@ -77,7 +79,7 @@ public class MainMenu extends GuiScreen {
                 else
                     mc.shutdown();
             }
-            x += 120;
+            x += 90;
         }
     }
 }
