@@ -3,6 +3,7 @@ package me.eliteun17y.unity.module;
 import me.eliteun17y.unity.Unity;
 import me.eliteun17y.unity.event.Subscribe;
 import me.eliteun17y.unity.event.impl.EventValueChange;
+import me.eliteun17y.unity.module.impl.combat.KillAura;
 import me.eliteun17y.unity.module.impl.exploits.Disabler;
 import me.eliteun17y.unity.module.impl.hidden.HUDEditor;
 import me.eliteun17y.unity.module.impl.hidden.Windows;
@@ -33,6 +34,8 @@ public class ModuleManager {
         modules = new ArrayList<>();
 
         // Combat
+
+        modules.add(new KillAura());
 
         // Exploits
 
