@@ -5,6 +5,7 @@ import me.eliteun17y.unity.event.Subscribe;
 import me.eliteun17y.unity.event.impl.EventUpdate;
 import me.eliteun17y.unity.module.Category;
 import me.eliteun17y.unity.module.Module;
+import me.eliteun17y.unity.util.chat.ChatUtil;
 import me.eliteun17y.unity.util.math.RandomUtil;
 import me.eliteun17y.unity.util.setting.impl.BooleanValue;
 import me.eliteun17y.unity.util.setting.impl.ModeValue;
@@ -12,12 +13,10 @@ import me.eliteun17y.unity.util.setting.impl.NumberValue;
 import me.eliteun17y.unity.util.time.Timer;
 import me.eliteun17y.unity.util.world.EntityUtil;
 import net.minecraft.entity.Entity;
+import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
 import org.lwjgl.input.Keyboard;
-
-import javax.vecmath.Matrix3d;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -42,6 +41,9 @@ public class KillAura extends Module {
 
     public int index;
 
+    public float oldYaw;
+    public float oldPitch;
+
     public KillAura() {
         super("Kill Aura", "Automatically attacks for you.", Category.COMBAT, Keyboard.KEY_R);
 
@@ -62,6 +64,9 @@ public class KillAura extends Module {
     @Subscribe
     public void onUpdate(EventUpdate event) {
         if(event.isPre()) {
+            oldYaw = mc.player.rotationYaw;
+            oldPitch = mc.player.rotationPitch;
+
             ArrayList<Entity> entities = new ArrayList(Arrays.asList(mc.world.loadedEntityList.stream().filter(entity -> entity != mc.player && mc.player.getDistance(entity) <= range.getFloat() && ((EntityUtil.isEntityPlayer(entity) && !Unity.instance.friendManager.getRegistry().stream().anyMatch(friend -> friend.uuid.equals(entity.getUniqueID())) && players.getObject()) || (EntityUtil.isEntityNonHostile(entity) && nonHostile.getObject()) || (EntityUtil.isEntityHostile(entity) && hostile.getObject()) || other.getObject())).toArray()));
             if(entities.isEmpty()) return;
 
@@ -114,21 +119,27 @@ public class KillAura extends Module {
                 }
             }
         }
+
+        if(event.isPost()) {
+            mc.getConnection().sendPacket(new CPacketPlayer.Rotation(oldYaw, oldPitch, mc.player.onGround));
+        }
     }
 
     public void rotate(Entity entity) {
         double[] rotations = getEntityRotations(entity);
-        mc.player.rotationYaw = (float) rotations[0];
-        mc.player.rotationPitch = (float) rotations[1];
+
+        mc.getConnection().sendPacket(new CPacketPlayer.Rotation((float) rotations[0], (float) rotations[1], mc.player.onGround));
     }
 
     public double[] getEntityRotations(Entity entity) {
         switch(rotationMode.getMode()) {
             case "Instant":
                 double xRange = entity.posX - mc.player.posX;
-                double yRange = entity.posY + entity.getEyeHeight() / 2 - (mc.player.posY + mc.player.getEyeHeight());
+                double yRange = entity.posY - (mc.player.posY + mc.player.getEyeHeight());
                 double zRange = entity.posZ - mc.player.posZ;
-                return new double[] {(Math.atan2(zRange, xRange) * 180 / Math.PI) - 90, Math.atan2(yRange, MathHelper.sqrt(xRange * xRange + zRange * zRange )) * 180 / Math.PI};
+                double dist = MathHelper.sqrt(xRange * xRange + zRange * zRange);
+
+                return new double[] {(MathHelper.atan2(zRange, xRange) * 180 / Math.PI) - 90, -(MathHelper.atan2(yRange, dist) * 180 / Math.PI)};
         }
 
         return new double[] {0, 0};
