@@ -3,6 +3,7 @@ package me.eliteun17y.unity.module;
 import me.eliteun17y.unity.Unity;
 import me.eliteun17y.unity.event.Subscribe;
 import me.eliteun17y.unity.event.impl.EventValueChange;
+import me.eliteun17y.unity.module.impl.combat.AutoCrystal;
 import me.eliteun17y.unity.module.impl.combat.KillAura;
 import me.eliteun17y.unity.module.impl.exploits.Disabler;
 import me.eliteun17y.unity.module.impl.hidden.HUDEditor;
@@ -35,6 +36,7 @@ public class ModuleManager {
 
         // Combat
 
+        modules.add(new AutoCrystal());
         modules.add(new KillAura());
 
         // Exploits

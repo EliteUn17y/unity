@@ -23,7 +23,7 @@ import java.util.Comparator;
 
 public class KillAura extends Module {
     public ModeValue mode = new ModeValue(this, "Mode", "Closest", "Closest", "Multiple", "Switch");
-    public BooleanValue rotation = new BooleanValue(this, "Rotation", true);
+    public BooleanValue rotation = new BooleanValue(this, "Rotate", true);
     public ModeValue rotationMode = new ModeValue("Rotation Mode", "Instant", "Instant");
     public NumberValue aps = new NumberValue("Attacks per second", 16, 20, 1, 1);
     public NumberValue range = new NumberValue(this, "Range", 4, 6, 1, 1);

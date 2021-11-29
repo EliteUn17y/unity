@@ -4,8 +4,6 @@ import me.eliteun17y.unity.event.Subscribe;
 import me.eliteun17y.unity.event.impl.EventUpdate;
 import me.eliteun17y.unity.module.Category;
 import me.eliteun17y.unity.module.Module;
-import me.eliteun17y.unity.util.chat.ChatUtil;
-import me.eliteun17y.unity.util.player.PlayerUtil;
 import me.eliteun17y.unity.util.setting.impl.*;
 import org.lwjgl.input.Keyboard;
 
