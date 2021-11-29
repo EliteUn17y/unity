@@ -1,5 +1,6 @@
 package me.eliteun17y.unity.module.impl.combat;
 
+import com.mojang.authlib.GameProfile;
 import me.eliteun17y.unity.Unity;
 import me.eliteun17y.unity.event.Subscribe;
 import me.eliteun17y.unity.event.impl.EventUpdate;
@@ -13,6 +14,7 @@ import me.eliteun17y.unity.util.setting.impl.NumberValue;
 import me.eliteun17y.unity.util.time.Timer;
 import me.eliteun17y.unity.util.world.EntityUtil;
 import net.minecraft.block.Block;
+import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -32,6 +34,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.UUID;
 
 public class AutoCrystal extends Module {
     public ModeValue priority = new ModeValue(this, "Priority", "Health", "Health", "Distance");
@@ -77,11 +80,9 @@ public class AutoCrystal extends Module {
         super.onEnable();
         ticks = 0;
         timer.reset();
-        EntityPlayer entityPlayer = new EntityPlayerSP(mc, mc.world, null, null, null);
-        entityPlayer.posX = mc.player.posX;
-        entityPlayer.posY = mc.player.posY;
-        entityPlayer.posZ = mc.player.posZ;
-        mc.world.addEntityToWorld(99999, entityPlayer);
+        EntityPlayer entityPlayer = new EntityOtherPlayerMP(mc.world, new GameProfile(UUID.randomUUID(), "DEMO"));
+        entityPlayer.setPosition(entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ);
+        mc.world.addEntityToWorld(999, entityPlayer);
     }
 
     @Subscribe
