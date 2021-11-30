@@ -10,10 +10,7 @@ import me.eliteun17y.unity.module.impl.hidden.HUDEditor;
 import me.eliteun17y.unity.module.impl.hidden.Windows;
 import me.eliteun17y.unity.module.impl.misc.MiddleClickFriend;
 import me.eliteun17y.unity.module.impl.movement.*;
-import me.eliteun17y.unity.module.impl.player.AntiCrash;
-import me.eliteun17y.unity.module.impl.player.FastPlace;
-import me.eliteun17y.unity.module.impl.player.NoFall;
-import me.eliteun17y.unity.module.impl.player.Offhand;
+import me.eliteun17y.unity.module.impl.player.*;
 import me.eliteun17y.unity.module.impl.render.*;
 import me.eliteun17y.unity.util.math.Vector3;
 import me.eliteun17y.unity.util.math.Vector5;
@@ -77,6 +74,7 @@ public class ModuleManager {
         // Player
 
         modules.add(new AntiCrash());
+        modules.add(new FakePlayer());
         modules.add(new FastPlace());
         modules.add(new NoFall());
         modules.add(new Offhand());

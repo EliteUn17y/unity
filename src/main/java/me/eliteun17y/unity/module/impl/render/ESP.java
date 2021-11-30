@@ -36,8 +36,6 @@ import org.lwjgl.opengl.GL11;
 import java.awt.*;
 import java.util.Locale;
 
-import static org.lwjgl.opengl.GL11.*;
-
 public class ESP extends Module {
     public ModeValue blockMode = new ModeValue(this, "Block Mode", "Both", "Both", "Fill", "Outline");
     public ModeValue entityMode = new ModeValue(this, "Entity Mode", "Outline", "Outline", "Visibility");

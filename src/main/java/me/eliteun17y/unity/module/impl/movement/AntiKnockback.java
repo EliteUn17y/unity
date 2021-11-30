@@ -25,6 +25,9 @@ public class AntiKnockback extends Module {
                     if(event.getPacket() instanceof SPacketEntityVelocity)
                         if (((SPacketEntityVelocity) event.getPacket()).getEntityID() == mc.player.getEntityId())
                             event.setCancelled(true);
+
+                    if(event.getPacket() instanceof SPacketExplosion)
+                        event.setCancelled(true);
                 }
                 break;
         }
