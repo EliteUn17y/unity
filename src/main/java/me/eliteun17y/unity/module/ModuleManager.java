@@ -78,6 +78,7 @@ public class ModuleManager {
         modules.add(new FastPlace());
         modules.add(new NoFall());
         modules.add(new Offhand());
+        modules.add(new Surround());
 
         // Hidden
 
