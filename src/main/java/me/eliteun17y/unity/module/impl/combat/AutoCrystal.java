@@ -107,6 +107,7 @@ public class AutoCrystal extends Module {
 
     @Subscribe
     public void onUpdate(EventUpdate event) {
+        // TODO: Rotations
         ArrayList<Entity> entities = new ArrayList(Arrays.asList(mc.world.loadedEntityList.stream().filter(entity -> entity != mc.player && mc.player.getDistance(entity) <= entityRange.getFloat() && ((EntityUtil.isEntityPlayer(entity) && !Unity.instance.friendManager.getRegistry().stream().anyMatch(friend -> friend.name.equals(entity.getName())) && players.getObject()) || (EntityUtil.isEntityNonHostile(entity) && nonHostile.getObject()) || (EntityUtil.isEntityHostile(entity) && hostile.getObject()) || other.getObject() && !(entity instanceof EntityEnderCrystal))).toArray()));
 
         if (!entities.isEmpty()) {

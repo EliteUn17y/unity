@@ -61,6 +61,7 @@ public class Surround extends Module {
 
     @Subscribe
     public void onUpdate(EventUpdate event) {
+        // TODO: ROTATE
         for(int i = 0; i < blocksToPlace.size(); i++) {
             if(delay.getLong() == 0 || timer.hasTimePassed(1000 / delay.getLong())) {
                 BlockPos blockPos = blocksToPlace.get(i);
