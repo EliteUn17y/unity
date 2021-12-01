@@ -24,6 +24,8 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.item.EntityEnderCrystal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.network.play.client.CPacketHeldItemChange;
 import net.minecraft.network.play.client.CPacketPlayerTryUseItemOnBlock;
 import net.minecraft.util.CombatRules;
 import net.minecraft.util.DamageSource;
@@ -41,7 +43,7 @@ import java.util.*;
 
 public class AutoCrystal extends Module {
     public ModeValue blockPriority = new ModeValue(this, "Block Priority", "Health", "Health", "Distance");
-    public ModeValue entityPriority = new ModeValue(this, "Entity Priority", "Distance", "Distance");
+    public ModeValue entityPriority = new ModeValue(this, "Entity Priority", "Distance", "Distance", "All");
 
     public BooleanValue placeCrystals = new BooleanValue(this, "Place Crystals", true);
     public BooleanValue breakCrystals = new BooleanValue(this, "Break Crystals", true);
@@ -51,11 +53,12 @@ public class AutoCrystal extends Module {
     public NumberValue placeRange = new NumberValue("Place Range", 6, 6, 1, 0.1);
     public NumberValue breakRange = new NumberValue("Break Range", 6, 6, 1, 0.1);
 
-    public NumberValue placeSpeed = new NumberValue("Place Speed", 10, 20, 1, 1);
-    public NumberValue breakSpeed = new NumberValue("Break Speed", 20, 20, 1, 1);
+    public NumberValue placeSpeed = new NumberValue("Place Speed", 20, 40, 1, 1);
+    public NumberValue breakSpeed = new NumberValue("Break Speed", 20, 40, 1, 1);
 
-    public NumberValue maximumSelfDamage = new NumberValue(this, "Maximum Self Damage", 10, 20, 1, 1);
+    public NumberValue maximumSelfDamage = new NumberValue(this, "Maximum Self Damage", 10, 36, 1, 1);
     public NumberValue minimumEnemyDamage = new NumberValue(this, "Minimum Enemy Damage", 5, 20, 1, 1);
+    public BooleanValue antiSuicide = new BooleanValue(this, "Anti Suicide", true);
 
     public BooleanValue rotation = new BooleanValue(this, "Rotate", true);
     public ModeValue rotationMode = new ModeValue("Rotation Mode", "Instant", "Instant");
@@ -112,14 +115,49 @@ public class AutoCrystal extends Module {
             // Place
             if(placeCrystals.getObject()) {
                 if(placeTimer.hasTimePassed(1000 / placeSpeed.getInt())) {
-                    ArrayList<BlockPos> blocks = getApplicableBlocks((int) mc.player.posX, (int) mc.player.posY, (int) mc.player.posZ, placeRange.getInt());
-                    BlockPos block = getBlock(blocks, entity);
-                    if(getDamage(block.getX(), block.getY(), block.getZ(), entity) >= minimumEnemyDamage.getFloat()) {
-                        currentBlockPos = block;
-                        // TODO: Make this use the right hand and and also add antisuicide and better break mode and then maximum self damage
-                        mc.getConnection().sendPacket(new CPacketPlayerTryUseItemOnBlock(block, EnumFacing.getDirectionFromEntityLiving(block, mc.player), EnumHand.MAIN_HAND, 0, 0, 0));
+                    if(entityPriority.getMode().equalsIgnoreCase("All")) {
+                        for(Entity e : entities) {
+                            ArrayList<BlockPos> blocks = getApplicableBlocks((int) mc.player.posX, (int) mc.player.posY, (int) mc.player.posZ, placeRange.getInt());
+                            BlockPos block = getBlock(blocks, entity);
+                            if(block != null) {
+                                if(getDamage(block.getX(), block.getY(), block.getZ(), entity) >= minimumEnemyDamage.getFloat()) {
+                                    currentBlockPos = block;
+                                    EnumHand hand = EnumHand.MAIN_HAND;
+                                    if(mc.player.getHeldItemOffhand().getItem() == Items.END_CRYSTAL)
+                                        hand = EnumHand.OFF_HAND;
+                                    if(mc.player.getHeldItemMainhand().getItem() != Items.END_CRYSTAL && mc.player.getHeldItemOffhand().getItem() != Items.END_CRYSTAL && getSlotWithCrystals() != -1)
+                                        mc.getConnection().sendPacket(new CPacketHeldItemChange(getSlotWithCrystals()));
+
+                                    mc.getConnection().sendPacket(new CPacketPlayerTryUseItemOnBlock(block, EnumFacing.getDirectionFromEntityLiving(block, mc.player), hand, 0, 0, 0));
+
+                                    if(mc.player.getHeldItemMainhand().getItem() != Items.END_CRYSTAL && mc.player.getHeldItemOffhand().getItem() != Items.END_CRYSTAL && getSlotWithCrystals() != -1)
+                                        mc.getConnection().sendPacket(new CPacketHeldItemChange(mc.player.inventory.currentItem));
+                                }
+                            }
+                        }
+
+                        placeTimer.reset();
+                    }else {
+                        ArrayList<BlockPos> blocks = getApplicableBlocks((int) mc.player.posX, (int) mc.player.posY, (int) mc.player.posZ, placeRange.getInt());
+                        BlockPos block = getBlock(blocks, entity);
+                        if(block != null) {
+                            if(getDamage(block.getX(), block.getY(), block.getZ(), entity) >= minimumEnemyDamage.getFloat()) {
+                                currentBlockPos = block;
+                                EnumHand hand = EnumHand.MAIN_HAND;
+                                if(mc.player.getHeldItemOffhand().getItem() == Items.END_CRYSTAL)
+                                    hand = EnumHand.OFF_HAND;
+                                if(mc.player.getHeldItemMainhand().getItem() != Items.END_CRYSTAL && mc.player.getHeldItemOffhand().getItem() != Items.END_CRYSTAL && getSlotWithCrystals() != -1)
+                                    mc.getConnection().sendPacket(new CPacketHeldItemChange(getSlotWithCrystals()));
+
+                                mc.getConnection().sendPacket(new CPacketPlayerTryUseItemOnBlock(block, EnumFacing.getDirectionFromEntityLiving(block, mc.player), hand, 0, 0, 0));
+
+                                if(mc.player.getHeldItemMainhand().getItem() != Items.END_CRYSTAL && mc.player.getHeldItemOffhand().getItem() != Items.END_CRYSTAL && getSlotWithCrystals() != -1)
+                                    mc.getConnection().sendPacket(new CPacketHeldItemChange(mc.player.inventory.currentItem));
+                            }
+                        }
+
+                        placeTimer.reset();
                     }
-                    placeTimer.reset();
                 }
             }
 
@@ -132,7 +170,8 @@ public class AutoCrystal extends Module {
                     for(Entity e : mc.world.loadedEntityList) {
                         if(mc.player.getDistance(e) > breakRange.getFloat()) continue;
                         if(e instanceof EntityEnderCrystal)
-                            enderCrystals.add((EntityEnderCrystal) e);
+                            if(getDamage((EntityEnderCrystal) e, entity) >= minimumEnemyDamage.getFloat() && getDamage((EntityEnderCrystal) e, mc.player) <= maximumSelfDamage.getFloat() && ((mc.player.getHeldItemMainhand().getItem() == Items.TOTEM_OF_UNDYING || mc.player.getHeldItemOffhand().getItem() == Items.TOTEM_OF_UNDYING) || !antiSuicide.getObject()) || (antiSuicide.getObject() && (mc.player.getHealth() + mc.player.getAbsorptionAmount()) - getDamage((EntityEnderCrystal) e, mc.player) > 0))
+                                enderCrystals.add((EntityEnderCrystal) e);
                     }
 
                     if(!enderCrystals.isEmpty()) {
@@ -166,8 +205,10 @@ public class AutoCrystal extends Module {
                 for(int z1 = (int) (mc.player.posZ - radius); z1 < mc.player.posZ + radius; z1++) {
                     Block block = mc.world.getBlockState(new BlockPos(x1, y1, z1)).getBlock();
                     if(block == Blocks.BEDROCK || block == Blocks.OBSIDIAN) {
-                        if(mc.world.getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(new BlockPos(x1, y1, z1).add(0, 1, 0))).isEmpty() && mc.world.getBlockState(new BlockPos(x1, y1, z1).add(0, 1, 0)).getBlock() == Blocks.AIR && mc.world.getBlockState(new BlockPos(x1, y1, z1).add(0, 2, 0)).getBlock() == Blocks.AIR) {
-                            blocks.add(new BlockPos(x1, y1, z1));
+                        if(mc.world.getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(new BlockPos(x1, y1, z1).add(0, 1, 0))).isEmpty() && mc.world.getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(new BlockPos(x1, y1, z1).add(0, 2, 0))).isEmpty() && mc.world.getBlockState(new BlockPos(x1, y1, z1).add(0, 1, 0)).getBlock() == Blocks.AIR && mc.world.getBlockState(new BlockPos(x1, y1, z1).add(0, 2, 0)).getBlock() == Blocks.AIR) {
+                            if(getDamage(x1, y1, z1, mc.player) <= maximumSelfDamage.getFloat() || (antiSuicide.getObject() && mc.player.getHeldItemMainhand().getItem() != Items.TOTEM_OF_UNDYING && mc.player.getHeldItemOffhand().getItem() != Items.TOTEM_OF_UNDYING && mc.player.getHealth() + mc.player.getAbsorptionAmount() - getDamage(x1, y1, z1, mc.player) <= 0)) {
+                                blocks.add(new BlockPos(x1, y1, z1));
+                            }
                         }
                     }
                 }
@@ -224,6 +265,14 @@ public class AutoCrystal extends Module {
         }
     }
 
+    public int getSlotWithCrystals() {
+        for(int i = 0; i < 9; i++) {
+            if(mc.player.inventory.getStackInSlot(i).getItem() == Items.END_CRYSTAL)
+                return i;
+        }
+        return -1;
+    }
+
     public Entity getEntity(ArrayList<Entity> entities) {
         switch(entityPriority.getMode()) {
             case "Distance":
@@ -236,6 +285,8 @@ public class AutoCrystal extends Module {
     public BlockPos getBlock(ArrayList<BlockPos> blocks, Entity entity) {
         switch(blockPriority.getMode()) {
             case "Health":
+                if(blocks.isEmpty())
+                    return null;
                 return blocks.stream().max(Comparator.comparing(blockPos -> getDamage(blockPos.getX(), blockPos.getY(), blockPos.getZ(), entity))).get();
         }
 

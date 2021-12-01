@@ -112,13 +112,14 @@ public class ESPUtils {
 
                 mc.getRenderManager().getEntityRenderObject(entity).doRender(entity, x1, y1, z1, yaw1, partialTicks);
 
-                GlStateManager.enableDepth();
 
                 color(0);
 
                 color(color.getRGB());
 
                 mc.getRenderManager().getEntityRenderObject(entity).doRender(entity, x1, y1, z1, yaw1, partialTicks);
+
+                GlStateManager.enableDepth();
 
                 GlStateManager.enableTexture2D();
                 glPopAttrib();
