@@ -14,8 +14,10 @@ import me.eliteun17y.unity.util.setting.impl.NumberValue;
 import me.eliteun17y.unity.util.time.Timer;
 import me.eliteun17y.unity.util.world.BlockUtil;
 import net.minecraft.init.Blocks;
+import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import org.lwjgl.input.Keyboard;
 
 import java.awt.*;
@@ -62,9 +64,11 @@ public class Surround extends Module {
     @Subscribe
     public void onUpdate(EventUpdate event) {
         // TODO: ROTATE
+        // TODO: GET THIS TO WORK
         for(int i = 0; i < blocksToPlace.size(); i++) {
             if(delay.getLong() == 0 || timer.hasTimePassed(1000 / delay.getLong())) {
                 BlockPos blockPos = blocksToPlace.get(i);
+                rotate(blockPos);
                 BlockUtil.placeBlock(blockPos, EnumHand.MAIN_HAND);
                 timer.reset();
                 blocksToPlace.remove(i);
@@ -86,5 +90,21 @@ public class Surround extends Module {
         if(!mc.world.getBlockState(pos).getBlock().isFullBlock(mc.world.getBlockState(pos))) {
             blocksToPlace.add(pos);
         }
+    }
+
+    public void rotate(BlockPos block) {
+        double[] rotations = getBlockRotations(block);
+        // mc.player.rotationYaw = (float) rotations[0];
+        //mc.player.rotationPitch = (float) rotations[1];
+        mc.getConnection().sendPacket(new CPacketPlayer.Rotation((float) rotations[0], (float) rotations[1], mc.player.onGround));
+    }
+
+    public double[] getBlockRotations(BlockPos block) {
+        double xRange = block.getX() - mc.player.posX;
+        double yRange = block.getY() - (mc.player.posY + mc.player.getEyeHeight());
+        double zRange = block.getZ() - mc.player.posZ;
+        double dist = MathHelper.sqrt(xRange * xRange + zRange * zRange);
+
+        return new double[] {(MathHelper.atan2(zRange, xRange) * 180 / Math.PI) - 90, -(MathHelper.atan2(yRange, dist) * 180 / Math.PI)};
     }
 }

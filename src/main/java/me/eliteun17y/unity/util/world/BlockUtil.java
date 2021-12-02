@@ -8,6 +8,6 @@ import net.minecraft.util.math.BlockPos;
 
 public class BlockUtil {
     public static void placeBlock(BlockPos blockPos, EnumHand hand) {
-        Minecraft.getMinecraft().getConnection().sendPacket(new CPacketPlayerTryUseItemOnBlock(blockPos, EnumFacing.getDirectionFromEntityLiving(blockPos, Minecraft.getMinecraft().player), hand, 0, 0, 0));
+        Minecraft.getMinecraft().getConnection().sendPacket(new CPacketPlayerTryUseItemOnBlock(blockPos, EnumFacing.getDirectionFromEntityLiving(blockPos, Minecraft.getMinecraft().player).getOpposite(), hand, 0, 0, 0));
     }
 }

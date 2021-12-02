@@ -126,6 +126,7 @@ public class KillAura extends Module {
     }
 
     public void rotate(Entity entity) {
+        if(!rotation.getObject()) return;
         double[] rotations = getEntityRotations(entity);
 
         mc.getConnection().sendPacket(new CPacketPlayer.Rotation((float) rotations[0], (float) rotations[1], mc.player.onGround));

@@ -26,6 +26,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.network.play.client.CPacketHeldItemChange;
+import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.network.play.client.CPacketPlayerTryUseItemOnBlock;
 import net.minecraft.util.CombatRules;
 import net.minecraft.util.DamageSource;
@@ -129,6 +130,7 @@ public class AutoCrystal extends Module {
                                     if(mc.player.getHeldItemMainhand().getItem() != Items.END_CRYSTAL && mc.player.getHeldItemOffhand().getItem() != Items.END_CRYSTAL && getSlotWithCrystals() != -1)
                                         mc.getConnection().sendPacket(new CPacketHeldItemChange(getSlotWithCrystals()));
 
+                                    rotate(block);
                                     mc.getConnection().sendPacket(new CPacketPlayerTryUseItemOnBlock(block, EnumFacing.getDirectionFromEntityLiving(block, mc.player), hand, 0, 0, 0));
 
                                     if(mc.player.getHeldItemMainhand().getItem() != Items.END_CRYSTAL && mc.player.getHeldItemOffhand().getItem() != Items.END_CRYSTAL && getSlotWithCrystals() != -1)
@@ -150,6 +152,7 @@ public class AutoCrystal extends Module {
                                 if(mc.player.getHeldItemMainhand().getItem() != Items.END_CRYSTAL && mc.player.getHeldItemOffhand().getItem() != Items.END_CRYSTAL && getSlotWithCrystals() != -1)
                                     mc.getConnection().sendPacket(new CPacketHeldItemChange(getSlotWithCrystals()));
 
+                                rotate(block);
                                 mc.getConnection().sendPacket(new CPacketPlayerTryUseItemOnBlock(block, EnumFacing.getDirectionFromEntityLiving(block, mc.player), hand, 0, 0, 0));
 
                                 if(mc.player.getHeldItemMainhand().getItem() != Items.END_CRYSTAL && mc.player.getHeldItemOffhand().getItem() != Items.END_CRYSTAL && getSlotWithCrystals() != -1)
@@ -177,6 +180,7 @@ public class AutoCrystal extends Module {
 
                     if(!enderCrystals.isEmpty()) {
                         EntityEnderCrystal enderCrystal = getCrystal(enderCrystals, entity);
+                        rotate(enderCrystal);
                         mc.playerController.attackEntity(mc.player, enderCrystal);
                         mc.player.swingArm(EnumHand.MAIN_HAND);
                     }
@@ -272,6 +276,50 @@ public class AutoCrystal extends Module {
                 return i;
         }
         return -1;
+    }
+
+    public void rotate(Entity entity) {
+        if(!rotation.getObject()) return;
+        double[] rotations = getEntityRotations(entity);
+        // mc.player.rotationYaw = (float) rotations[0];
+        //mc.player.rotationPitch = (float) rotations[1];
+        mc.getConnection().sendPacket(new CPacketPlayer.Rotation((float) rotations[0], (float) rotations[1], mc.player.onGround));
+    }
+
+    public double[] getEntityRotations(Entity entity) {
+        switch(rotationMode.getMode()) {
+            case "Instant":
+                double xRange = entity.posX - mc.player.posX;
+                double yRange = entity.posY - (mc.player.posY + mc.player.getEyeHeight());
+                double zRange = entity.posZ - mc.player.posZ;
+                double dist = MathHelper.sqrt(xRange * xRange + zRange * zRange);
+
+                return new double[] {(MathHelper.atan2(zRange, xRange) * 180 / Math.PI) - 90, -(MathHelper.atan2(yRange, dist) * 180 / Math.PI)};
+        }
+
+        return new double[] {0, 0};
+    }
+
+    public void rotate(BlockPos block) {
+        if(!rotation.getObject()) return;
+        double[] rotations = getBlockRotations(block);
+        // mc.player.rotationYaw = (float) rotations[0];
+        //mc.player.rotationPitch = (float) rotations[1];
+        mc.getConnection().sendPacket(new CPacketPlayer.Rotation((float) rotations[0], (float) rotations[1], mc.player.onGround));
+    }
+
+    public double[] getBlockRotations(BlockPos block) {
+        switch(rotationMode.getMode()) {
+            case "Instant":
+                double xRange = block.getX() - mc.player.posX;
+                double yRange = block.getY() - (mc.player.posY + mc.player.getEyeHeight());
+                double zRange = block.getZ() - mc.player.posZ;
+                double dist = MathHelper.sqrt(xRange * xRange + zRange * zRange);
+
+                return new double[] {(MathHelper.atan2(zRange, xRange) * 180 / Math.PI) - 90, -(MathHelper.atan2(yRange, dist) * 180 / Math.PI)};
+        }
+
+        return new double[] {0, 0};
     }
 
     public Entity getEntity(ArrayList<Entity> entities) {
