@@ -120,9 +120,9 @@ public class AutoCrystal extends Module {
                     if(entityPriority.getMode().equalsIgnoreCase("All")) {
                         for(Entity e : entities) {
                             ArrayList<BlockPos> blocks = getApplicableBlocks((int) mc.player.posX, (int) mc.player.posY, (int) mc.player.posZ, placeRange.getInt());
-                            BlockPos block = getBlock(blocks, entity);
+                            BlockPos block = getBlock(blocks, e);
                             if(block != null) {
-                                if(getDamage(block.getX(), block.getY(), block.getZ(), entity) >= minimumEnemyDamage.getFloat()) {
+                                if(getDamage(block.getX(), block.getY(), block.getZ(), e) >= minimumEnemyDamage.getFloat()) {
                                     currentBlockPos = block;
                                     EnumHand hand = EnumHand.MAIN_HAND;
                                     if(mc.player.getHeldItemOffhand().getItem() == Items.END_CRYSTAL)
@@ -197,6 +197,10 @@ public class AutoCrystal extends Module {
 
     @Subscribe
     public void onRenderWorld(EventRenderWorld event) {
+        ArrayList<BlockPos> blocks = getApplicableBlocks((int) mc.player.posX, (int) mc.player.posY, (int) mc.player.posZ, placeRange.getInt());
+        for(BlockPos blockPos : blocks) {
+            ESPUtils.drawBox(ESPUtils.BoxMode.valueOf(crystalBlockMode.getMode().toUpperCase(Locale.ROOT)), blockPos, crystalBlockColor.getObject(), crystalBlockFillColor.getObject());
+        }
         if(currentBlockPos != null) {
             ESPUtils.drawBox(ESPUtils.BoxMode.valueOf(crystalBlockMode.getMode().toUpperCase(Locale.ROOT)), currentBlockPos, crystalBlockColor.getObject(), crystalBlockFillColor.getObject());
         }
