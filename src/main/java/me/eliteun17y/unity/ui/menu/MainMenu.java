@@ -1,5 +1,6 @@
 package me.eliteun17y.unity.ui.menu;
 
+import me.eliteun17y.unity.Unity;
 import me.eliteun17y.unity.ui.login.Login;
 import me.eliteun17y.unity.ui.settings.Settings;
 import me.eliteun17y.unity.util.Reference;
@@ -51,6 +52,8 @@ public class MainMenu extends GuiScreen {
         GlStateManager.scale(4, 4, 4);
         FontManager.instance.robotoRegular.drawString(Reference.NAME + " " + Reference.VERSION, (sr.getScaledWidth() / 2.0f - (FontManager.instance.robotoRegular.getStringWidth(Reference.NAME + " " + Reference.VERSION) / 2.0f * 4.0f)) / 4.0f, (sr.getScaledHeight() / 4.0f) / 4.0f, UIUtil.getOppositeFontColor().getRGB());
         GlStateManager.scale(0.25, 0.25, 0.25);
+
+        FontManager.instance.robotoRegularSmall.drawString(Unity.instance.user.username, 0, 0, -1);
 
         // Buttons
 

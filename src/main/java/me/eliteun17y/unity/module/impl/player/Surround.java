@@ -15,9 +15,12 @@ import me.eliteun17y.unity.util.time.Timer;
 import me.eliteun17y.unity.util.world.BlockUtil;
 import net.minecraft.init.Blocks;
 import net.minecraft.network.play.client.CPacketPlayer;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import org.lwjgl.input.Keyboard;
 
 import java.awt.*;
@@ -49,24 +52,28 @@ public class Surround extends Module {
         blocksToPlace = new ArrayList<>();
         timer.reset();
 
+        mc.getConnection().sendPacket(new CPacketPlayer.Position(Math.floor(mc.player.posX) + 0.5, Math.floor(mc.player.posY), Math.floor(mc.player.posZ) + 0.5, mc.player.onGround));
         mc.player.setPosition(Math.floor(mc.player.posX) + 0.5, Math.floor(mc.player.posY), Math.floor(mc.player.posZ) + 0.5);
 
-        addPosition(new BlockPos(Math.floor(mc.player.posX) + 1, Math.floor(mc.player.posY), Math.floor(mc.player.posZ)));
-        addPosition(new BlockPos(Math.floor(mc.player.posX) - 1, Math.floor(mc.player.posY), Math.floor(mc.player.posZ)));
-        addPosition(new BlockPos(Math.floor(mc.player.posX), Math.floor(mc.player.posY), Math.floor(mc.player.posZ) + 1));
-        addPosition(new BlockPos(Math.floor(mc.player.posX), Math.floor(mc.player.posY), Math.floor(mc.player.posZ) - 1));
         addPosition(new BlockPos(Math.floor(mc.player.posX) + 1, Math.floor(mc.player.posY) - 1, Math.floor(mc.player.posZ)));
         addPosition(new BlockPos(Math.floor(mc.player.posX) - 1, Math.floor(mc.player.posY) - 1, Math.floor(mc.player.posZ)));
         addPosition(new BlockPos(Math.floor(mc.player.posX), Math.floor(mc.player.posY) - 1, Math.floor(mc.player.posZ) + 1));
         addPosition(new BlockPos(Math.floor(mc.player.posX), Math.floor(mc.player.posY) - 1, Math.floor(mc.player.posZ) - 1));
+        addPosition(new BlockPos(Math.floor(mc.player.posX) + 1, Math.floor(mc.player.posY), Math.floor(mc.player.posZ)));
+        addPosition(new BlockPos(Math.floor(mc.player.posX) - 1, Math.floor(mc.player.posY), Math.floor(mc.player.posZ)));
+        addPosition(new BlockPos(Math.floor(mc.player.posX), Math.floor(mc.player.posY), Math.floor(mc.player.posZ) + 1));
+        addPosition(new BlockPos(Math.floor(mc.player.posX), Math.floor(mc.player.posY), Math.floor(mc.player.posZ) - 1));
     }
 
     @Subscribe
     public void onUpdate(EventUpdate event) {
+        mc.player.motionX = 0;
+        mc.player.motionZ = 0;
         // TODO: ROTATE
         // TODO: GET THIS TO WORK
         for(int i = 0; i < blocksToPlace.size(); i++) {
-            if(delay.getLong() == 0 || timer.hasTimePassed(1000 / delay.getLong())) {
+            long d = delay.getLong();
+            if(d == 0 || timer.hasTimePassed(50 * d)) {
                 BlockPos blockPos = blocksToPlace.get(i);
                 rotate(blockPos);
                 BlockUtil.placeBlock(blockPos, EnumHand.MAIN_HAND);
@@ -81,6 +88,17 @@ public class Surround extends Module {
 
     @Subscribe
     public void onRenderWorld(EventRenderWorld event) {
+        for(BlockPos blockPos : blocksToPlace) {
+            for(EnumFacing facing : EnumFacing.values()) {
+                BlockPos neighbor = blockPos.offset(facing);
+                EnumFacing oppositeFacing = facing.getOpposite();
+                Vec3d vec = new Vec3d(neighbor.add(0.5, 0.5, 0.5)).add(new Vec3d(oppositeFacing.getDirectionVec()).scale(0.5));
+                ESPUtils.drawBox(ESPUtils.BoxMode.valueOf(blockMode.getMode().toUpperCase(Locale.ROOT)), blockPos, blockColor.getObject(), blockFillColor.getObject());
+                /*EnumActionResult result = mc.playerController.processRightClickBlock(mc.player, mc.world, neighbor, oppositeFacing, vec, hand);
+                if(result != EnumActionResult.FAIL)
+                    mc.player.swingArm(EnumHand.MAIN_HAND);*/
+            }
+        }
         for(BlockPos blockPos : blocksToPlace) {
             ESPUtils.drawBox(ESPUtils.BoxMode.valueOf(blockMode.getMode().toUpperCase(Locale.ROOT)), blockPos, blockColor.getObject(), blockFillColor.getObject());
         }

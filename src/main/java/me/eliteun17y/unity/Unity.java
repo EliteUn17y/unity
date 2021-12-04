@@ -1,5 +1,7 @@
 package me.eliteun17y.unity;
 
+import me.eliteun17y.unity.auth.AuthenticatedUser;
+import me.eliteun17y.unity.auth.Authenticator;
 import me.eliteun17y.unity.command.CommandManager;
 import me.eliteun17y.unity.event.EventBus;
 import me.eliteun17y.unity.event.EventProcessor;
@@ -11,7 +13,6 @@ import me.eliteun17y.unity.proxy.CommonProxy;
 import me.eliteun17y.unity.ui.clickgui.ClickGUI;
 import me.eliteun17y.unity.util.Reference;
 import me.eliteun17y.unity.util.font.manager.FontManager;
-import me.eliteun17y.unity.util.login.Authenticator;
 import me.eliteun17y.unity.widgets.WidgetManager;
 import me.eliteun17y.unity.window.WindowManager;
 import net.minecraftforge.common.MinecraftForge;
@@ -23,6 +24,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
+import java.util.Objects;
 import java.util.UUID;
 
 @Mod(modid = Reference.ID, name = Reference.NAME, version = Reference.VERSION)
@@ -44,6 +46,8 @@ public class Unity {
     public FriendManager friendManager;
     public AltManager altManager;
 
+    public AuthenticatedUser user;
+
     @EventHandler
     public void PreInit(FMLPreInitializationEvent event) {
 
@@ -55,6 +59,10 @@ public class Unity {
         EVENT_BUS.register(this);
 
         new FontManager();
+
+        user = Authenticator.auth("test", "test2", "demohwid");
+        if(Objects.equals(user.getUsername(), ""))
+            System.out.println("failed antipiracy check");
 
         moduleManager = new ModuleManager();
         windowManager = new WindowManager();

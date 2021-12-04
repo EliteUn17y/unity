@@ -307,8 +307,6 @@ public class AutoCrystal extends Module {
     public void rotate(BlockPos block) {
         if(!rotation.getObject()) return;
         double[] rotations = getBlockRotations(block);
-        // mc.player.rotationYaw = (float) rotations[0];
-        //mc.player.rotationPitch = (float) rotations[1];
         mc.getConnection().sendPacket(new CPacketPlayer.Rotation((float) rotations[0], (float) rotations[1], mc.player.onGround));
     }
 
