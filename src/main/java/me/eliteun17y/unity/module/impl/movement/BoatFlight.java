@@ -24,7 +24,7 @@ public class BoatFlight extends Module {
             case "Normal":
                 if (mc.player.getRidingEntity() != null) {
                     mc.player.getRidingEntity().setNoGravity(true);
-                    mc.player.getRidingEntity().motionY = mc.player.movementInput.jump ? verticalSpeed.getFloat() : mc.player.movementInput.sneak ? -verticalSpeed.getFloat() : mc.player.ticksExisted % 2 == 0 ? -0.2 : 0.1;
+                    mc.player.getRidingEntity().motionY = mc.player.movementInput.jump ? verticalSpeed.getFloat() : mc.player.movementInput.sneak ? -verticalSpeed.getFloat() : 0;
                     PlayerUtil.strafe(speed.getDouble());
                     PlayerUtil.strafe(mc.player.getRidingEntity(), speed.getDouble());
                 }

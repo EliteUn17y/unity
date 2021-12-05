@@ -36,7 +36,6 @@ public class WebUtil {
                 sb.append("\"").append(nameValuePair.getName()).append("\": \"").append(nameValuePair.getValue()).append(data.indexOf(nameValuePair) == data.size()-1 ? "\"" : "\",\n");
             }
             sb.append("\n}");
-            System.out.println(sb.toString());
             httppost.setEntity(new StringEntity(sb.toString(), StandardCharsets.UTF_8));
 
             HttpResponse response = httpclient.execute(httppost);

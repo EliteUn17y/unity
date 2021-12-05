@@ -1,7 +1,11 @@
 package me.eliteun17y.unity;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import me.eliteun17y.unity.auth.AuthenticatedUser;
 import me.eliteun17y.unity.auth.Authenticator;
+import me.eliteun17y.unity.auth.HWID;
 import me.eliteun17y.unity.command.CommandManager;
 import me.eliteun17y.unity.event.EventBus;
 import me.eliteun17y.unity.event.EventProcessor;
@@ -10,12 +14,16 @@ import me.eliteun17y.unity.managers.alts.AltManager;
 import me.eliteun17y.unity.managers.friend.FriendManager;
 import me.eliteun17y.unity.module.ModuleManager;
 import me.eliteun17y.unity.proxy.CommonProxy;
+import me.eliteun17y.unity.ui.authlogin.AuthLogin;
 import me.eliteun17y.unity.ui.clickgui.ClickGUI;
 import me.eliteun17y.unity.util.Reference;
+import me.eliteun17y.unity.util.file.FileUtil;
 import me.eliteun17y.unity.util.font.manager.FontManager;
 import me.eliteun17y.unity.widgets.WidgetManager;
 import me.eliteun17y.unity.window.WindowManager;
+import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -59,10 +67,20 @@ public class Unity {
         EVENT_BUS.register(this);
 
         new FontManager();
+        new FileUtil();
 
-        user = Authenticator.auth("test", "test2", "demohwid");
-        if(Objects.equals(user.getUsername(), ""))
-            System.out.println("failed antipiracy check");
+        if(FileUtil.getContent(FileUtil.auth).contains("username")) {
+            try {
+                JsonParser jsonParser = new JsonParser();
+                JsonElement jsonElement = jsonParser.parse(FileUtil.getContent(FileUtil.auth));
+                JsonObject object = jsonElement.getAsJsonObject();
+                user = Authenticator.getUser(object.get("username").getAsString(), object.get("password").getAsString(), HWID.getHWID());
+            }catch(Exception e) {
+                user = null;
+            }
+        }
+        else
+            user = null; // We will set this later after asking for the username and password
 
         moduleManager = new ModuleManager();
         windowManager = new WindowManager();
@@ -76,5 +94,6 @@ public class Unity {
 
     @EventHandler
     public void PostInit(FMLPostInitializationEvent event) {
+
     }
 }

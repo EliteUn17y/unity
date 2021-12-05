@@ -53,8 +53,6 @@ public class MainMenu extends GuiScreen {
         FontManager.instance.robotoRegular.drawString(Reference.NAME + " " + Reference.VERSION, (sr.getScaledWidth() / 2.0f - (FontManager.instance.robotoRegular.getStringWidth(Reference.NAME + " " + Reference.VERSION) / 2.0f * 4.0f)) / 4.0f, (sr.getScaledHeight() / 4.0f) / 4.0f, UIUtil.getOppositeFontColor().getRGB());
         GlStateManager.scale(0.25, 0.25, 0.25);
 
-        FontManager.instance.robotoRegularSmall.drawString(Unity.instance.user.username, 0, 0, -1);
-
         // Buttons
 
         String[] buttons = { "Singleplayer", "Multiplayer", "Login", "Unity Settings", "Settings", "Language", "Quit" };
@@ -92,8 +90,8 @@ public class MainMenu extends GuiScreen {
             FontManager.instance.robotoRegularSmall.drawString(str, 12, yPos, UIUtil.getFontColor().getRGB());
             yPos += FontManager.instance.robotoRegularSmall.getStringHeight(str);
         }
-        
 
+        FontManager.instance.robotoRegularSmall.drawString(Unity.instance.user.username, 3, sr.getScaledHeight() - FontManager.instance.robotoRegularSmall.getStringHeight(Unity.instance.user.username) - FontManager.instance.robotoRegularSmall.getStringHeight("Made by eliteun17y") - 6, UIUtil.getOppositeFontColor().getRGB());
         FontManager.instance.robotoRegularSmall.drawString("Made by eliteun17y", 3, sr.getScaledHeight() - FontManager.instance.robotoRegularSmall.getStringHeight("Made by eliteun17y") - 3, UIUtil.getOppositeFontColor().getRGB());
     }
 
