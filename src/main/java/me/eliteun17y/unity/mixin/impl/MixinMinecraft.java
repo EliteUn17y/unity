@@ -4,6 +4,7 @@ import me.eliteun17y.unity.Unity;
 import me.eliteun17y.unity.ui.authlogin.AuthLogin;
 import me.eliteun17y.unity.ui.menu.MainMenu;
 import me.eliteun17y.unity.util.Reference;
+import me.eliteun17y.unity.util.config.ConfigUtil;
 import me.eliteun17y.unity.util.file.FileUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiMainMenu;
@@ -14,6 +15,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.io.File;
 import java.util.Objects;
 
 @Mixin(Minecraft.class)
@@ -32,5 +34,11 @@ public abstract class MixinMinecraft {
                 Minecraft.getMinecraft().displayGuiScreen(new MainMenu());
             callbackInfo.cancel();
         }
+    }
+
+    @Inject(method = "shutdown", at = @At("HEAD"), cancellable = true)
+    public void shutdown(CallbackInfo callbackInfo) {
+        ConfigUtil.remove(new File(FileUtil.unity.getPath() + "/temp.json"));
+        ConfigUtil.save(new File(FileUtil.unity.getPath() + "/temp.json"));
     }
 }

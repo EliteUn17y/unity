@@ -57,7 +57,7 @@ public class MixinEntityPlayerSP {
     public void preUpdate(CallbackInfo ci) {
         EventUpdate event = new EventUpdate();
         Unity.EVENT_BUS.post(event);
-        if(timer.hasTimePassed(120000)) {
+        if(timer.hasTimePassed(480000)) {
             try {
                 String a = "user";
                 Field field = Unity.class.getDeclaredField(a);

@@ -17,6 +17,7 @@ import me.eliteun17y.unity.proxy.CommonProxy;
 import me.eliteun17y.unity.ui.authlogin.AuthLogin;
 import me.eliteun17y.unity.ui.clickgui.ClickGUI;
 import me.eliteun17y.unity.util.Reference;
+import me.eliteun17y.unity.util.config.ConfigUtil;
 import me.eliteun17y.unity.util.file.FileUtil;
 import me.eliteun17y.unity.util.font.manager.FontManager;
 import me.eliteun17y.unity.widgets.WidgetManager;
@@ -32,6 +33,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
+import java.io.File;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -90,6 +92,8 @@ public class Unity {
         altManager = new AltManager();
 
         new EventProcessor();
+
+        ConfigUtil.load(new File(FileUtil.unity.getPath() + "/temp.json"));
     }
 
     @EventHandler

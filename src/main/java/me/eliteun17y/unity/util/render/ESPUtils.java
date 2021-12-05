@@ -5,9 +5,11 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.client.renderer.entity.RenderSheep;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.EntitySheep;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import org.lwjgl.opengl.GL11;
@@ -112,14 +114,14 @@ public class ESPUtils {
 
                 mc.getRenderManager().getEntityRenderObject(entity).doRender(entity, x1, y1, z1, yaw1, partialTicks);
 
+                GlStateManager.enableDepth();
+
 
                 color(0);
 
                 color(color.getRGB());
 
                 mc.getRenderManager().getEntityRenderObject(entity).doRender(entity, x1, y1, z1, yaw1, partialTicks);
-
-                GlStateManager.enableDepth();
 
                 GlStateManager.enableTexture2D();
                 glPopAttrib();
@@ -147,12 +149,13 @@ public class ESPUtils {
 
                 float yaw = entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * partialTicks;
 
+                glColor4f( 1.0f, 1.0f, 1.0f, 1.0f );
                 mc.getRenderManager().getEntityRenderObject(entity).doRender(entity, x, y, z, yaw, partialTicks);
                 // Set the polygon mode to be filled triangles
                 glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
                 glEnable( GL_LIGHTING );
                 // Set the colour to the background
-                glColor4f( 0.0f, 0.0f, 0.0f, 0.0f );
+                glColor4f( 0.0f, 0.0f, 0.0f, 1.0f );
                 // Render the object
                 mc.getRenderManager().getEntityRenderObject(entity).doRender(entity, x, y, z, yaw, partialTicks);
                 // Pop the state changes off the attribute stack

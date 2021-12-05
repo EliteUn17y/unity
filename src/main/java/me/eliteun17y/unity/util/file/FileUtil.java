@@ -10,11 +10,14 @@ import java.io.IOException;
 
 public class FileUtil {
     public static File unity = new File(Minecraft.getMinecraft().mcDataDir.getPath() + "/unity");
+    public static File configs = new File(Minecraft.getMinecraft().mcDataDir.getPath() + "/unity/configs");
     public static File auth = new File(unity.getPath() + "/auth.json");
 
     public FileUtil() {
         if(!unity.exists())
             unity.mkdirs();
+        if(!configs.exists())
+            configs.mkdirs();
         if(!auth.exists()) {
             try {
                 auth.createNewFile();

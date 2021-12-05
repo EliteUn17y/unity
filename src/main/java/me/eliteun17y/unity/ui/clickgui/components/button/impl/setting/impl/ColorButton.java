@@ -229,7 +229,7 @@ public class ColorButton extends SettingButton {
     public void setColor(Color color) {
         float[] hsb = Color.RGBtoHSB(color.getRed(), color.getBlue(), color.getGreen(), null);
 
-        this.selectedX = hsb[1] * this.radius * (Math.sin(Math.toRadians(hsb[0] * 360)) / Math.sin(Math.toRadians(90)));
+        this.selectedX = hsb[1] * this.radius * (Math.sin(-Math.toRadians(hsb[0] * 360)) / Math.sin(Math.toRadians(90)));
         this.selectedY = hsb[1] * this.radius * (Math.sin(Math.toRadians(90 - (hsb[0] * 360))) / Math.sin(Math.toRadians(90)));
     }
 

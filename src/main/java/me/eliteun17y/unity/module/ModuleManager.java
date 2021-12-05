@@ -155,8 +155,6 @@ public class ModuleManager {
             boolean aPassed = false;
             boolean bPassed = false;
             Vector5 moduleVector5 = (Vector5) modVector5;
-            if(module.getValues().contains((Value) moduleVector5.getC()))
-                continue;
             //valueToAddOnChangeOfValueAndOtherValue.add(new Vector5(value, value2, valueToAdd, object, object2));
             if(moduleVector5.getA() instanceof NumberValue) {
                 if(((NumberValue) moduleVector5.getA()).getObject().doubleValue() == (double) moduleVector5.getD()) {

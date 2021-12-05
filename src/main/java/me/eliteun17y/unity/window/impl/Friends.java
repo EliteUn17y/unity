@@ -79,7 +79,7 @@ public class Friends extends Window {
 
                 FontManager.instance.robotoLightSmall.drawString(friend.name, x, y, UIUtil.getFontColor().getRGB());
                 if(mouseButton == 0) {
-                    if(mouseX >= x && mouseX <= x + FontManager.instance.robotoRegularSmall.getStringWidth(friend.name)) {
+                    if(mouseX >= x && mouseX <= x + FontManager.instance.robotoRegularSmall.getStringWidth(friend.name) && mouseY >= y && mouseY <= y + FontManager.instance.robotoRegularSmall.getStringHeight(friend.name)) {
                         Unity.instance.friendManager.getRegistry().removeIf(friend1 -> friend1.equals(friend));
                     }
                 }

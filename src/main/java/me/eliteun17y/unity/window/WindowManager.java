@@ -1,5 +1,6 @@
 package me.eliteun17y.unity.window;
 
+import me.eliteun17y.unity.window.impl.Configs;
 import me.eliteun17y.unity.window.impl.Demo;
 import me.eliteun17y.unity.window.impl.Friends;
 
@@ -11,6 +12,7 @@ public class WindowManager {
     public WindowManager() {
         windows = new ArrayList<>();
 
+        windows.add(new Configs());
         windows.add(new Demo());
         windows.add(new Friends());
 

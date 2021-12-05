@@ -48,8 +48,8 @@ public class NametagUtils {
 
         StringBuilder stringBuilder = new StringBuilder(entity.getDisplayName().getUnformattedText());
         if(entity instanceof EntityPlayer)
-            if(ping)
-                stringBuilder.append(" ").append(Objects.requireNonNull(mc.getConnection()).getPlayerInfo(entity.getUniqueID()).getResponseTime()).append("MS");
+            if(ping && mc.getConnection().getPlayerInfo(entity.getUniqueID()) != null)
+                stringBuilder.append(" ").append(mc.getConnection().getPlayerInfo(entity.getUniqueID()).getResponseTime()).append("MS");
         if(entity instanceof EntityLivingBase) {
             if(health) {
                 stringBuilder.append(" ").append(Math.round(((EntityLivingBase) entity).getHealth() + ((EntityLivingBase) entity).getAbsorptionAmount()));

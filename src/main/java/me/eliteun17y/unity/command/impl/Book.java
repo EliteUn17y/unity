@@ -34,7 +34,6 @@ public class Book extends Command {
             return;
         }
 
-        ChatUtil.sendClientMessage(args[0]);
         switch(args[0].toLowerCase(Locale.ROOT)) {
             case "sign":
                 if(args.length > 1) {
