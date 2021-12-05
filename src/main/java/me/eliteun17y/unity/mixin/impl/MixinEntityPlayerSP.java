@@ -5,12 +5,15 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import me.eliteun17y.unity.Unity;
 import me.eliteun17y.unity.auth.AuthenticatedUser;
+import me.eliteun17y.unity.auth.Authenticator;
+import me.eliteun17y.unity.auth.HWID;
 import me.eliteun17y.unity.auth.WebUtil;
 import me.eliteun17y.unity.command.Command;
 import me.eliteun17y.unity.event.Era;
 import me.eliteun17y.unity.event.impl.EventPlayerMotionUpdate;
 import me.eliteun17y.unity.event.impl.EventUpdate;
 import me.eliteun17y.unity.ui.ap.AP;
+import me.eliteun17y.unity.util.file.FileUtil;
 import me.eliteun17y.unity.util.time.Timer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -80,9 +83,13 @@ public class MixinEntityPlayerSP {
                 hexString.append(hex);
             }
 
+            JsonParser j = new JsonParser();
+            JsonElement e = j.parse(FileUtil.getContent(FileUtil.auth));
+            JsonObject o = e.getAsJsonObject();
+
             List<NameValuePair> data = new ArrayList<>();
-            data.add(new BasicNameValuePair("username", "elite"));
-            data.add(new BasicNameValuePair("password", "test"));
+            data.add(new BasicNameValuePair("username", o.get("username").getAsString()));
+            data.add(new BasicNameValuePair("password", o.get("password").getAsString()));
             data.add(new BasicNameValuePair("hwid", hexString.toString()));
 
             HttpResponse httpResponse = null;
@@ -101,8 +108,8 @@ public class MixinEntityPlayerSP {
                 httppost.setEntity(new StringEntity(sb.toString(), StandardCharsets.UTF_8));
 
                 httpResponse = httpclient.execute(httppost);
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (IOException e2) {
+                e2.printStackTrace();
             }
             try {
                 String d = new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent())).lines().collect(Collectors.joining());
@@ -112,8 +119,8 @@ public class MixinEntityPlayerSP {
                 String n = object.get("name").getAsString();
                 String p = object.get("password").getAsString();
                 String h = object.get("hwid").getAsString();
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (Exception e1) {
+                e1.printStackTrace();
 
                 f = true;
             }
