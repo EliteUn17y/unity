@@ -28,7 +28,7 @@ public class MainMenu extends GuiScreen {
         changelog = new ArrayList<>();
 
         try {
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(this.getClass().getResourceAsStream("/changelog.txt"))));
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(this.getClass().getResourceAsStream("/changes.txt"))));
 
             String line;
             while((line = bufferedReader.readLine()) != null) {

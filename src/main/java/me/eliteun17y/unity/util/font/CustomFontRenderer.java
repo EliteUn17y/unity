@@ -1,6 +1,5 @@
 package me.eliteun17y.unity.util.font;
 
-import me.eliteun17y.unity.util.ui.RenderHelper;
 import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.opengl.GL11;
 
@@ -18,8 +17,8 @@ public class CustomFontRenderer extends CustomFont {
     }
 
     public void drawString(String str, float x, float y, int color) {
-        x *= 8;
-        y *= 8;
+        x *= multiplier;
+        y *= multiplier;
         GL11.glPushMatrix();
         GlStateManager.enableBlend();
         GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -49,8 +48,8 @@ public class CustomFontRenderer extends CustomFont {
     }
 
     public void drawStringWithXDeadzone(String str, float x, float y, int color, float xLeftDeadzone, float xRightDeadzone) {
-        x *= 8;
-        y *= 8;
+        x *= multiplier;
+        y *= multiplier;
         GL11.glPushMatrix();
         GlStateManager.enableBlend();
         GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -80,8 +79,8 @@ public class CustomFontRenderer extends CustomFont {
     }
 
     public void drawStringWithDeadzone(String str, float x, float y, int color, float deadzoneTopY, float deadzoneBottomY) {
-        x *= 8;
-        y *= 8;
+        x *= multiplier;
+        y *= multiplier;
         GL11.glPushMatrix();
         GlStateManager.enableBlend();
         GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);

@@ -95,7 +95,7 @@ public class CustomFont {
         float scaleX = c.width*(float)multiplier;
         float scaleY = c.height*(float)multiplier;
 
-        float x1 = x / 8;
+        float x1 = x / multiplier;
 
         if(x1 < xRightDeadzone && x1 + c.width > xRightDeadzone)
             scaleX -= ((x1 + c.width) - xRightDeadzone)*multiplier;
@@ -132,7 +132,7 @@ public class CustomFont {
         float scaleX = c.width*(float)multiplier;
         float scaleY = c.height*(float)multiplier;
 
-        float y1 = y / 8;
+        float y1 = y / multiplier;
 
         if(y1 < deadzoneBottomY && y1 + c.height > deadzoneBottomY)
             scaleY -= ((y1 + c.height) - deadzoneBottomY)*multiplier;
