@@ -17,7 +17,6 @@ import java.util.Objects;
 
 public class NametagUtils {
     public static void drawNametag(Entity entity, double partialTicks, boolean armor, boolean background, boolean health, boolean heldItem, boolean maxHealth, boolean ping, Color textColor, Color color, Color fillColor) {
-
         Minecraft mc = Minecraft.getMinecraft();
 
         float viewerYaw = mc.getRenderManager().playerViewY;

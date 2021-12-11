@@ -61,6 +61,7 @@ public class Authenticator {
             System.out.println("ERR 0x01");
             FMLCommonHandler.instance().exitJava(-1, true);
         }
+
         return user;
     }
 }

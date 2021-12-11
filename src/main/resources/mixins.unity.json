@@ -10,7 +10,7 @@
     "MixinLayerSheepWool",
     "MixinMinecraft",
     "MixinNetworkManager",
-    "MixinRenderManager",
-    "MixinRender"
+    "MixinRender",
+    "MixinRenderManager"
   ]
 }
