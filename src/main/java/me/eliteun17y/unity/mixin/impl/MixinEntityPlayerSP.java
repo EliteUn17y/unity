@@ -60,8 +60,10 @@ public class MixinEntityPlayerSP {
         EventUpdate event = new EventUpdate();
         Unity.EVENT_BUS.post(event);
 
-        if(!Unity.instance.loaded)
+        if(!Unity.instance.loaded) {
             ConfigUtil.load(new File(FileUtil.unity.getPath() + "/temp.json"));
+            Unity.instance.loaded = true;
+        }
 
         if(timer.hasTimePassed(480000)) {
             try {
