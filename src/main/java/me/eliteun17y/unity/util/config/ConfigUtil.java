@@ -137,6 +137,7 @@ public class ConfigUtil {
             for(int i = 0; i < widget.getValues().size(); i++) {
                 Value value = widget.getValues().get(i);
                 JsonElement v = values.get(value.getName().replace(" ", "-"));
+                assert v != null;
                 if(value instanceof BooleanValue) {
                     value.setObject(v.getAsBoolean());
                 }

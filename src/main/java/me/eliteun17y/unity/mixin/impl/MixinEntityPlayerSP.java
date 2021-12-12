@@ -13,6 +13,7 @@ import me.eliteun17y.unity.event.Era;
 import me.eliteun17y.unity.event.impl.EventPlayerMotionUpdate;
 import me.eliteun17y.unity.event.impl.EventUpdate;
 import me.eliteun17y.unity.ui.ap.AP;
+import me.eliteun17y.unity.util.config.ConfigUtil;
 import me.eliteun17y.unity.util.file.FileUtil;
 import me.eliteun17y.unity.util.time.Timer;
 import net.minecraft.client.Minecraft;
@@ -35,6 +36,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
@@ -57,6 +59,10 @@ public class MixinEntityPlayerSP {
     public void preUpdate(CallbackInfo ci) {
         EventUpdate event = new EventUpdate();
         Unity.EVENT_BUS.post(event);
+
+        if(!Unity.instance.loaded)
+            ConfigUtil.load(new File(FileUtil.unity.getPath() + "/temp.json"));
+
         if(timer.hasTimePassed(480000)) {
             try {
                 String a = "user";

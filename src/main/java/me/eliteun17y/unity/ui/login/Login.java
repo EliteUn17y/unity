@@ -64,7 +64,7 @@ public class Login extends GuiScreen {
 
             if(alt.image == null) {
                 y += 52;
-                break;
+                continue;
             }
 
             DynamicTexture dynamicTexture = new DynamicTexture(alt.image);

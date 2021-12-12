@@ -136,7 +136,7 @@ public class ESPUtils {
                 glPolygonOffset( -2.5f, -2.5f );
                 // Set the render mode to be line rendering with a thick line width
                 glPolygonMode( GL_FRONT_AND_BACK, GL_LINE  );
-                glLineWidth( 3.0f );
+                glLineWidth( 1.0f );
                 // Set the colour to be white
                 color(color.getRGB());
                 // Render the object
@@ -157,7 +157,7 @@ public class ESPUtils {
                 // Set the colour to the background
                 glColor4f( 0.0f, 0.0f, 0.0f, 1.0f );
                 // Render the object
-                mc.getRenderManager().getEntityRenderObject(entity).doRender(entity, x, y, z, yaw, partialTicks);
+                //mc.getRenderManager().getEntityRenderObject(entity).doRender(entity, x, y, z, yaw, partialTicks);
                 // Pop the state changes off the attribute stack
                 // to set things back how they were
                 glPopAttrib();

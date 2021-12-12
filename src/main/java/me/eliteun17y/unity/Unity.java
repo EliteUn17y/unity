@@ -58,6 +58,8 @@ public class Unity {
 
     public AuthenticatedUser user;
 
+    public boolean loaded;
+
     @EventHandler
     public void PreInit(FMLPreInitializationEvent event) {
 
@@ -65,6 +67,7 @@ public class Unity {
 
     @EventHandler
     public void init(FMLInitializationEvent event) {
+        loaded = false;
         MinecraftForge.EVENT_BUS.register(instance);
         EVENT_BUS.register(this);
 
@@ -92,8 +95,6 @@ public class Unity {
         altManager = new AltManager();
 
         new EventProcessor();
-
-        ConfigUtil.load(new File(FileUtil.unity.getPath() + "/temp.json"));
     }
 
     @EventHandler

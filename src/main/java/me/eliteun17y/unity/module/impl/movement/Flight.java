@@ -7,15 +7,26 @@ import me.eliteun17y.unity.module.Module;
 import me.eliteun17y.unity.util.player.PlayerUtil;
 import me.eliteun17y.unity.util.setting.impl.ModeValue;
 import me.eliteun17y.unity.util.setting.impl.NumberValue;
+import net.minecraft.network.play.client.CPacketPlayer;
 import org.lwjgl.input.Keyboard;
 
 public class Flight extends Module {
-    public ModeValue mode = new ModeValue(this, "Mode", "Motion", "Motion");
+    public ModeValue mode = new ModeValue(this, "Mode", "Motion", "Motion", "Verus");
     public NumberValue speed = new NumberValue(this, "Speed", 0.5, 5, 0, 0.1);
     public NumberValue verticalSpeed = new NumberValue(this, "Vertical Speed", 0.5, 5, 0, 0.1);
 
     public Flight() {
         super("Flight", "Allows you to fly in survival mode.", Category.MOVEMENT, Keyboard.KEY_G);
+    }
+
+    @Override
+    public void onEnable() {
+        super.onEnable();
+        switch(mode.getMode()) {
+            case "Verus":
+                PlayerUtil.damage(1);
+                break;
+        }
     }
 
     @Subscribe
@@ -24,6 +35,11 @@ public class Flight extends Module {
             case "Motion":
                 mc.player.motionY = mc.player.movementInput.jump ? verticalSpeed.getFloat() : mc.player.movementInput.sneak ? -verticalSpeed.getFloat() : 0;
                 PlayerUtil.strafe(speed.getDouble());
+                break;
+            case "Verus":
+                mc.player.motionY = 0;
+                mc.player.onGround = true;
+                PlayerUtil.strafe(mc.player.hurtTime > 0 ? speed.getDouble() : 0.2d);
                 break;
         }
     }
