@@ -18,8 +18,8 @@ public class Speed extends Widget {
     public ModeValue mode = new ModeValue(this, "Mode", "Miles per hour", "Meters per second", "Miles per hour", "Kilometers per hour");
     public BooleanValue prefix = new BooleanValue(this, "Prefix", false);
     public BooleanValue suffix = new BooleanValue(this, "Suffix", true);
-    public TextValue prefixText = new TextValue("Prefix", "Speed: ");
-    public TextValue suffixText = new TextValue("Suffix", " MPH");
+    public TextValue prefixText = new TextValue("Prefix Text", "Speed: ");
+    public TextValue suffixText = new TextValue("Suffix Text", " MPH");
 
     public float lastWidth = 0;
 

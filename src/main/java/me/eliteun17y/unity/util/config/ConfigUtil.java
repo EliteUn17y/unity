@@ -96,7 +96,8 @@ public class ConfigUtil {
         JsonObject modules1 = object.getAsJsonObject("modules");
         JsonObject widgets1 = object.getAsJsonObject("widgets");
 
-        for(Module module : Unity.instance.moduleManager.getModules()) {
+        for(int i1 = 0; i1 < Unity.instance.moduleManager.getModules().size(); i1++) {
+            Module module = Unity.instance.moduleManager.getModules().get(i1);
             JsonObject m = modules1.getAsJsonObject(module.getName().replace(" ", "-"));
             JsonObject values = m.getAsJsonObject("values");
             if(module.isToggled() != m.get("toggled").getAsBoolean())
@@ -127,7 +128,8 @@ public class ConfigUtil {
             }
         }
 
-        for(Widget widget : Unity.instance.widgetManager.getWidgets()) {
+        for(int i1 = 0; i1 < Unity.instance.widgetManager.getWidgets().size(); i1++) {
+            Widget widget = Unity.instance.widgetManager.getWidgets().get(i1);
             JsonObject w = widgets1.getAsJsonObject(widget.getName().replace(" ", "-"));
             JsonObject values = w.getAsJsonObject("values");
             if(widget.isToggled() != w.get("toggled").getAsBoolean())
@@ -137,11 +139,12 @@ public class ConfigUtil {
             for(int i = 0; i < widget.getValues().size(); i++) {
                 Value value = widget.getValues().get(i);
                 JsonElement v = values.get(value.getName().replace(" ", "-"));
-                assert v != null;
                 if(value instanceof BooleanValue) {
-                    value.setObject(v.getAsBoolean());
+                    System.out.println("Name: " + widget.getName() + " Value Name: " + value.getName() + " Value: " + v.getAsBoolean());
+                    ((BooleanValue) value).setObject(v.getAsBoolean());
                 }
                 if(value instanceof ColorValue) {
+                    System.out.println("Name: " + widget.getName() + " Value Name: " + value.getName());
                     float r = ((v.getAsInt() >> 16) & 0xff);
                     float g = ((v.getAsInt() >>  8) & 0xff);
                     float b = ((v.getAsInt()      ) & 0xff);
@@ -149,12 +152,15 @@ public class ConfigUtil {
                     ((ColorValue) value).setObject(new Color((int) r, (int) g, (int) b, (int) a));
                 }
                 if(value instanceof ModeValue) {
+                    System.out.println("Name: " + widget.getName() + " Value Name: " + value.getName());
                     ((ModeValue) value).setMode(v.getAsString());
                 }
                 if(value instanceof NumberValue) {
-                    value.setObject(v.getAsNumber());
+                    System.out.println("Name: " + widget.getName() + " Value Name: " + value.getName());
+                    ((NumberValue) value).setObject(v.getAsNumber());
                 }
                 if(value instanceof TextValue) {
+                    System.out.println("Name: " + widget.getName() + " Value Name: " + value.getName());
                     ((TextValue) value).setObject(v.getAsString());
                 }
             }

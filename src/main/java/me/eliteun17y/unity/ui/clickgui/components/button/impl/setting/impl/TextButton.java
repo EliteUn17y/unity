@@ -18,6 +18,7 @@ public class TextButton extends SettingButton {
     public TextButton(float x, float y, TextValue value) {
         super(x, y, value);
         textBox = new CustomFontTextBox(FontManager.instance.robotoLightSmall, x, y, 50, value.getName(), UIUtil.getOppositeFontColor(), UIUtil.getNormalColor());
+        textBox.setText(value.getObject());
     }
 
     @Override

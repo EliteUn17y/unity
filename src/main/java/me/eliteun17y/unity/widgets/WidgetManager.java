@@ -44,7 +44,9 @@ public class WidgetManager {
 
     @Subscribe
     public void onValueChange(EventValueChange event) {
-        if(!event.isWidget()) return;
+        if(event.isModule()) return;
+        if(event.getWidget() == null) return;
+        if(event.getWidget().valueToAddOnChangeOfValue.isEmpty()) return;
 
         Widget widget = event.getWidget();
         Object[] moduleVector3s = (widget.valueToAddOnChangeOfValue.stream().filter(vector3 -> vector3.getA() == event.getValue()).toArray());

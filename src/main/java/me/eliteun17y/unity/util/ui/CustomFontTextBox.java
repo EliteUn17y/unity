@@ -175,5 +175,6 @@ public class CustomFontTextBox {
 
     public void setText(String text) {
         this.text = text;
+        cursorPosition = text.length();
     }
 }

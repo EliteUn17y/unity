@@ -108,7 +108,9 @@ public class ModuleManager {
 
     @Subscribe
     public void onValueChange(EventValueChange event) {
-        if(!event.isModule()) return;
+        if(event.isWidget()) return;
+        if(event.getModule() == null) return;
+        if(event.getModule().valueToAddOnChangeOfValue.isEmpty()) return;
 
         Module module = event.getModule();
         Object[] moduleVector3s = (module.valueToAddOnChangeOfValue.stream().filter(vector3 -> vector3.getA() == event.getValue()).toArray());
