@@ -10,6 +10,7 @@ import net.minecraft.client.renderer.entity.RenderSheep;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import org.lwjgl.opengl.GL11;
@@ -127,6 +128,7 @@ public class ESPUtils {
                 glPopAttrib();
                 break;
             case OUTLINE:
+                // TODO: make this better
                 // Push the GL attribute bits so that we don't wreck any settings
                 glPushAttrib( GL_ALL_ATTRIB_BITS );
                 GlStateManager.disableDepth();

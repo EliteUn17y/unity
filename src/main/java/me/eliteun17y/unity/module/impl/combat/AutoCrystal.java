@@ -198,9 +198,6 @@ public class AutoCrystal extends Module {
     @Subscribe
     public void onRenderWorld(EventRenderWorld event) {
         ArrayList<BlockPos> blocks = getApplicableBlocks((int) mc.player.posX, (int) mc.player.posY, (int) mc.player.posZ, placeRange.getInt());
-        for(BlockPos blockPos : blocks) {
-            ESPUtils.drawBox(ESPUtils.BoxMode.valueOf(crystalBlockMode.getMode().toUpperCase(Locale.ROOT)), blockPos, crystalBlockColor.getObject(), crystalBlockFillColor.getObject());
-        }
         if(currentBlockPos != null) {
             ESPUtils.drawBox(ESPUtils.BoxMode.valueOf(crystalBlockMode.getMode().toUpperCase(Locale.ROOT)), currentBlockPos, crystalBlockColor.getObject(), crystalBlockFillColor.getObject());
         }
