@@ -99,6 +99,7 @@ public class ConfigUtil {
         for(int i1 = 0; i1 < Unity.instance.moduleManager.getModules().size(); i1++) {
             Module module = Unity.instance.moduleManager.getModules().get(i1);
             JsonObject m = modules1.getAsJsonObject(module.getName().replace(" ", "-"));
+            if(m == null) continue;
             JsonObject values = m.getAsJsonObject("values");
             if(module.isToggled() != m.get("toggled").getAsBoolean())
                 module.setToggled(m.get("toggled").getAsBoolean());
