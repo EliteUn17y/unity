@@ -6,6 +6,7 @@ import me.eliteun17y.unity.event.impl.EventValueChange;
 import me.eliteun17y.unity.module.impl.combat.AutoCrystal;
 import me.eliteun17y.unity.module.impl.combat.KillAura;
 import me.eliteun17y.unity.module.impl.exploits.Disabler;
+import me.eliteun17y.unity.module.impl.exploits.PacketFlight;
 import me.eliteun17y.unity.module.impl.exploits.QuickBreak;
 import me.eliteun17y.unity.module.impl.hidden.HUDEditor;
 import me.eliteun17y.unity.module.impl.hidden.Windows;
@@ -40,6 +41,7 @@ public class ModuleManager {
         // Exploits
 
         modules.add(new Disabler());
+        modules.add(new PacketFlight());
         modules.add(new QuickBreak());
 
         // Misc
@@ -76,6 +78,7 @@ public class ModuleManager {
         // Player
 
         modules.add(new AntiCrash());
+        modules.add(new Burrow());
         modules.add(new FakePlayer());
         modules.add(new FastPlace());
         modules.add(new NoFall());

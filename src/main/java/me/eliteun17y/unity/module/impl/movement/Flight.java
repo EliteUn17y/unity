@@ -11,7 +11,7 @@ import net.minecraft.network.play.client.CPacketPlayer;
 import org.lwjgl.input.Keyboard;
 
 public class Flight extends Module {
-    public ModeValue mode = new ModeValue(this, "Mode", "Motion", "Motion", "Verus");
+    public ModeValue mode = new ModeValue(this, "Mode", "Motion", "Motion", "Taka", "Verus");
     public NumberValue speed = new NumberValue(this, "Speed", 0.5, 5, 0, 0.1);
     public NumberValue verticalSpeed = new NumberValue(this, "Vertical Speed", 0.5, 5, 0, 0.1);
 
@@ -35,6 +35,11 @@ public class Flight extends Module {
             case "Motion":
                 mc.player.motionY = mc.player.movementInput.jump ? verticalSpeed.getFloat() : mc.player.movementInput.sneak ? -verticalSpeed.getFloat() : 0;
                 PlayerUtil.strafe(speed.getDouble());
+                break;
+            case "Taka":
+                mc.player.jump();
+                mc.player.motionY = mc.player.movementInput.jump ? verticalSpeed.getFloat() : mc.player.movementInput.sneak ? -verticalSpeed.getFloat() : 0.1;
+                mc.player.onGround = true;
                 break;
             case "Verus":
                 mc.player.motionY = 0;
