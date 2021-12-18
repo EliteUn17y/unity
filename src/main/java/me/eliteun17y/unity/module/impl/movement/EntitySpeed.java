@@ -9,6 +9,7 @@ import me.eliteun17y.unity.util.setting.impl.BooleanValue;
 import me.eliteun17y.unity.util.setting.impl.ModeValue;
 import me.eliteun17y.unity.util.setting.impl.NumberValue;
 import net.minecraft.entity.item.EntityBoat;
+import net.minecraft.entity.passive.EntityHorse;
 import org.lwjgl.input.Keyboard;
 
 public class EntitySpeed extends Module {

@@ -65,11 +65,11 @@ public class SettingPanel {
 
         float y = sr.getScaledHeight() / 2.0f - 70*3 + 25;
         for(Value value : module.getValues()) {
-            FontManager.instance.robotoLightSmall.drawString(value.getName(), sr.getScaledWidth() / 2.0f - 100 * 3 + 5, y, UIUtil.getFontColor().getRGB());
+            FontManager.instance.robotoRegularSmall.drawString(value.getName(), sr.getScaledWidth() / 2.0f - 100 * 3 + 5, y, UIUtil.getFontColor().getRGB());
             if(!(value instanceof ColorValue))
-                y += FontManager.instance.robotoLightSmall.getStringHeight(value.getName()) + 4;
+                y += FontManager.instance.robotoRegularSmall.getStringHeight(value.getName()) + 4;
             else
-                y += FontManager.instance.robotoLightSmall.getStringHeight(value.getName()) + 8;
+                y += FontManager.instance.robotoRegularSmall.getStringHeight(value.getName()) + 8;
             //y += FontManager.instance.robotoLightSmall.getStringHeight(value.getName()) + 4;
         }
 
