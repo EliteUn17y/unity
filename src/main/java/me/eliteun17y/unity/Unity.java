@@ -20,6 +20,7 @@ import me.eliteun17y.unity.util.Reference;
 import me.eliteun17y.unity.util.config.ConfigUtil;
 import me.eliteun17y.unity.util.file.FileUtil;
 import me.eliteun17y.unity.util.font.manager.FontManager;
+import me.eliteun17y.unity.util.world.TPSUtil;
 import me.eliteun17y.unity.widgets.WidgetManager;
 import me.eliteun17y.unity.window.WindowManager;
 import net.minecraft.client.Minecraft;
@@ -73,6 +74,7 @@ public class Unity {
 
         new FontManager();
         new FileUtil();
+        new TPSUtil();
 
         if(FileUtil.getContent(FileUtil.auth).contains("username")) {
             try {

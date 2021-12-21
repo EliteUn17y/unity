@@ -5,9 +5,7 @@ import me.eliteun17y.unity.event.Subscribe;
 import me.eliteun17y.unity.event.impl.EventValueChange;
 import me.eliteun17y.unity.module.impl.combat.AutoCrystal;
 import me.eliteun17y.unity.module.impl.combat.KillAura;
-import me.eliteun17y.unity.module.impl.exploits.Disabler;
-import me.eliteun17y.unity.module.impl.exploits.PacketFlight;
-import me.eliteun17y.unity.module.impl.exploits.QuickBreak;
+import me.eliteun17y.unity.module.impl.exploits.*;
 import me.eliteun17y.unity.module.impl.hidden.HUDEditor;
 import me.eliteun17y.unity.module.impl.hidden.Windows;
 import me.eliteun17y.unity.module.impl.misc.MiddleClickFriend;
@@ -40,7 +38,9 @@ public class ModuleManager {
 
         // Exploits
 
+        modules.add(new AntiLagKick());
         modules.add(new Disabler());
+        modules.add(new EntityControl());
         modules.add(new PacketFlight());
         modules.add(new QuickBreak());
 
@@ -60,6 +60,7 @@ public class ModuleManager {
         modules.add(new IronBoots());
         modules.add(new LongJump());
         modules.add(new NoSlowdown());
+        modules.add(new SafeWalk());
         modules.add(new Speed());
         modules.add(new Sprint());
         modules.add(new Step());
@@ -93,9 +94,11 @@ public class ModuleManager {
     }
 
     public Module getModule(String name) {
-        for(Module m : modules)
+        for(int i = 0; i < modules.size(); i++) {
+            Module m = modules.get(i);
             if(m.getName().equalsIgnoreCase(name))
                 return m;
+        }
         return null;
     }
 

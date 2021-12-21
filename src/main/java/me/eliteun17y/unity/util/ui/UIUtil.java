@@ -37,14 +37,14 @@ public class UIUtil {
 
     public static Color getFontColor() {
         Color light = new Color(230, 230, 230);
-        Color dark = new Color(80, 80, 80);
+        Color dark = new Color(55, 55, 55);
 
         return isDark() ? light : dark;
     }
 
     public static Color getOppositeFontColor() {
         Color light = new Color(230, 230, 230);
-        Color dark = new Color(80, 80, 80);
+        Color dark = new Color(55, 55, 55);
 
         return !isDark() ? light : dark;
     }

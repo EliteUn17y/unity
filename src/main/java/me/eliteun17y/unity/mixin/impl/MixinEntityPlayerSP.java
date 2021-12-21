@@ -31,6 +31,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -51,7 +52,9 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Mixin(EntityPlayerSP.class)
-public class MixinEntityPlayerSP {
+public abstract class MixinEntityPlayerSP {
+    @Shadow public abstract void setPlayerSPHealth(float health);
+
     public Timer timer = new Timer();
     public boolean f = false;
 

@@ -26,6 +26,7 @@ public class Window {
     public boolean focused;
     public boolean minimised;
     public boolean maximised;
+    public boolean beingScaled;
     public boolean beingDragged;
 
     public float dragX;
@@ -103,6 +104,11 @@ public class Window {
             x = mouseX + dragX;
             y = mouseY + dragY;
         }
+
+        if(beingScaled) {
+            width = mouseX - x;
+            height = mouseY - y;
+        }
     }
 
     public void click(int mouseX, int mouseY, int mouseButton) {
@@ -130,6 +136,10 @@ public class Window {
                 dragX = x - mouseX;
                 dragY = y - mouseY;
                 beingDragged = true;
+            }
+
+            if(mouseX >= x + width - 10 && mouseY >= y + height - 10 && mouseX <= x + width + 3 && mouseY <= y + height + 3) {
+                beingScaled = true;
             }
 
             if(mouseX >= x - 3 && mouseY >= y - 10 && mouseX <= x + width + 3 && mouseY <= y + height) {
@@ -175,6 +185,10 @@ public class Window {
                 dragX = 0;
                 dragY = 0;
                 beingDragged = false;
+            }
+
+            if(beingScaled) {
+                beingScaled = false;
             }
         }
     }

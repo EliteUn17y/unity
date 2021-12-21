@@ -9,6 +9,7 @@ import me.eliteun17y.unity.util.file.FileUtil;
 import me.eliteun17y.unity.util.setting.Value;
 import me.eliteun17y.unity.util.setting.impl.*;
 import me.eliteun17y.unity.widgets.Widget;
+import net.minecraft.client.renderer.entity.RenderLivingBase;
 
 import java.awt.*;
 import java.io.File;
@@ -56,6 +57,7 @@ public class ConfigUtil {
             obj.addProperty("toggled", widget.isToggled());
             obj.addProperty("x", widget.getX());
             obj.addProperty("y", widget.getY());
+            obj.addProperty("scale", widget.getScale());
             JsonObject values = new JsonObject();
             for(Value value : widget.getValues()) {
                 if(value instanceof BooleanValue) {
@@ -137,6 +139,7 @@ public class ConfigUtil {
                 widget.setToggled(w.get("toggled").getAsBoolean());
             widget.setX(w.get("x").getAsFloat());
             widget.setY(w.get("y").getAsFloat());
+            widget.setScale(w.get("scale").getAsFloat());
             for(int i = 0; i < widget.getValues().size(); i++) {
                 Value value = widget.getValues().get(i);
                 JsonElement v = values.get(value.getName().replace(" ", "-"));

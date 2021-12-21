@@ -40,7 +40,7 @@ public class CustomFontTextBox {
     }
 
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        setText(text.replace("\0", ""));
+        text = text.replace("\0", "");
 
         if(cursorPosition > text.length())
             cursorPosition -= 1;
@@ -93,6 +93,9 @@ public class CustomFontTextBox {
 
     public void keyTyped(char character, int key) {
         if(clicked) {
+            if(isCtrlKeyDown() && key != 47) {
+                return;
+            }
             System.out.println(key);
             switch(key) {
                 case 1:
@@ -109,6 +112,15 @@ public class CustomFontTextBox {
                              e.printStackTrace();
                          }
                          break;
+                     }else {
+                         if(text.length() == 0) {
+                             text = addCharAt(text, character, 0);
+                             cursorPosition += 1;
+                         }else {
+                             if(cursorPosition <= text.length())
+                                 text = addCharAt(text, character, cursorPosition);
+                         }
+                         cursorPosition += 1;
                      }
                 case 29:
                     break;
@@ -130,7 +142,7 @@ public class CustomFontTextBox {
                         cursorPosition += 1;
                     break;
                 case 203:
-                    if(cursorPosition - 1 <= text.length() - 1 && cursorPosition >= 0)
+                    if(cursorPosition > 0)
                         cursorPosition -= 1;
                     break;
                 case 14:

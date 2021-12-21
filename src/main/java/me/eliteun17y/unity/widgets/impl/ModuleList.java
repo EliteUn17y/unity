@@ -41,7 +41,7 @@ public class ModuleList extends Widget {
             int sort = 0; // 1 is longest to shortest, 0 is shortest to longest
 
             if(autoSort.getObject()) {
-                if((this.y + height / 2) * scale < sr.getScaledHeight() / 2.0f)
+                if((this.y + height / 2) < sr.getScaledHeight() / 2.0f)
                     sort = 1;
             }else{
                 sort = sortMode.getMode().equals("Longest to shortest") ? 1 : 0;
@@ -50,10 +50,10 @@ public class ModuleList extends Widget {
             int align = 0; // 0 is left, 1 is center and 2 is right
 
             if(autoAlign.getObject()) {
-                if((x + width / 2) * scale == sr.getScaledWidth() / 2.0f)
+                if((x + width / 2) == sr.getScaledWidth() / 2.0f)
                     align = 1;
 
-                if((x + width / 2) * scale > sr.getScaledWidth() / 2.0f)
+                if((x + width / 2) > sr.getScaledWidth() / 2.0f)
                     align = 2;
             }else{
                 align = alignMode.getMode().equals("Left") ? 0 : alignMode.getMode().equals("Center") ? 1 : 2;
@@ -76,21 +76,22 @@ public class ModuleList extends Widget {
                 if (FontManager.instance.robotoRegularSmall.getStringWidth(module.getDisplayName()) > w)
                     w = FontManager.instance.robotoRegularSmall.getStringWidth(module.getDisplayName());
 
-                h += FontManager.instance.robotoRegularSmall.getStringHeight(module.getDisplayName()) * scale;
+                h += FontManager.instance.robotoRegularSmall.getStringHeight(module.getDisplayName());
 
                 mods.add(module.getDisplayName());
             }
 
 
-            if(lastWidth > w && align == 2) {
-                x = x + lastWidth - w;
-            }else if(lastWidth < w && align == 2){
-                x = x + lastWidth - w;
+            if(lastWidth > w * scale && align == 2) {
+                x = x + lastWidth - w * scale;
+            }else if(lastWidth / scale < w * scale && align == 2){
+                x = x + lastWidth - w * scale;
             }
-            if(lastHeight < h && sort == 0) {
-                this.y = this.y + lastHeight - h;
-            }else if(lastHeight > h && sort == 0) {
-                this.y = this.y + lastHeight - h;
+
+            if(lastHeight < h * scale && sort == 0) {
+                this.y = this.y + lastHeight - h * scale;
+            }else if(lastHeight > h * scale && sort == 0) {
+                this.y = this.y + lastHeight - h * scale;
             }
 
             for(Module module : Unity.instance.moduleManager.getModules()) {
@@ -100,11 +101,11 @@ public class ModuleList extends Widget {
 
                 FontManager.instance.robotoRegularSmall.drawString(module.getDisplayName(), x, this.y + y, UIUtil.getOppositeFontColor().getRGB());
 
-                y += FontManager.instance.robotoRegularSmall.getStringHeight(module.getDisplayName()) * scale;
+                y += FontManager.instance.robotoRegularSmall.getStringHeight(module.getDisplayName());
             }
 
-            height = y;
-            width = w;
+            height = y * scale;
+            width = w * scale;
 
             unscale();
         }
