@@ -1,7 +1,5 @@
 package me.eliteun17y.unity.command.impl;
 
-import baritone.api.BaritoneAPI;
-import baritone.api.pathing.goals.GoalXZ;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import io.netty.buffer.Unpooled;
 import me.eliteun17y.unity.command.Command;
@@ -14,7 +12,6 @@ import net.minecraft.nbt.NBTTagString;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.client.CPacketCustomPayload;
 import net.minecraft.util.EnumHand;
-import net.minecraftforge.common.ForgeModContainer;
 
 import java.util.Locale;
 
