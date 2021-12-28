@@ -1,0 +1,6 @@
+[submodule "src/main/java/unity-api"]
+	path = src/main/java/unity-api
+	url = https://github.com/unityclient/unity-api
+[submodule "src/main/java/--force"]
+	path = src/main/java/--force
+	url = https://github.com/unityclient/unity-api
