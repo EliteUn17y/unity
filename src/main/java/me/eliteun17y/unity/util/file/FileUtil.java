@@ -9,8 +9,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class FileUtil {
-    public static File unity = new File(Minecraft.getMinecraft().mcDataDir.getPath() + "/unity");
-    public static File configs = new File(Minecraft.getMinecraft().mcDataDir.getPath() + "/unity/configs");
+    public static File unity = new File(Minecraft.getMinecraft().gameDir.getPath() + "/unity");
+    public static File configs = new File(Minecraft.getMinecraft().gameDir.getPath() + "/unity/configs");
     public static File auth = new File(unity.getPath() + "/auth.json");
 
     public FileUtil() {
