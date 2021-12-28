@@ -72,6 +72,7 @@ public class ModuleManager {
         modules.add(new Fullbright());
         modules.add(new HUD());
         modules.add(new Nametags());
+        modules.add(new NoRender());
         modules.add(new Time());
         modules.add(new Tracers());
         modules.add(new Weather());

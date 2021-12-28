@@ -11,6 +11,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
+import org.lwjgl.opengl.GL11;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -31,20 +33,21 @@ public class NametagUtils {
         double z = d2 - mc.getRenderManager().viewerPosZ;
         CustomFontRenderer fontRendererIn = FontManager.instance.robotoRegular;
 
-        GlStateManager.pushMatrix();
+        //GlStateManager.pushMatrix();
+        GL11.glPushMatrix();
         GlStateManager.translate(x, y, z);
         GlStateManager.glNormal3f(0.0F, 1.0F, 0.0F);
         GlStateManager.rotate(-viewerYaw, 0.0F, 1.0F, 0.0F);
         GlStateManager.rotate((float)(isThirdPersonFrontal ? -1 : 1) * viewerPitch, 1.0F, 0.0F, 0.0F);
-        GlStateManager.scale(-0.025F, -0.025F, 0);
+        GlStateManager.scale(-0.025F, -0.025F, 1);
         GlStateManager.disableLighting();
         GlStateManager.depthMask(false);
 
-        GlStateManager.disableDepth();
+        /*GlStateManager.disableDepth();
 
         GlStateManager.enableBlend();
         GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-
+*/
         StringBuilder stringBuilder = new StringBuilder(entity.getDisplayName().getUnformattedText());
         if(entity instanceof EntityPlayer)
             if(ping && mc.getConnection().getPlayerInfo(entity.getUniqueID()) != null)
@@ -104,7 +107,8 @@ public class NametagUtils {
         GlStateManager.enableDepth();
         GlStateManager.disableBlend();
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-        GlStateManager.popMatrix();
+        GL11.glPopMatrix();
+        //GlStateManager.popMatrix();
         GlStateManager.depthMask(true);
 
     }
@@ -131,7 +135,7 @@ public class NametagUtils {
         GlStateManager.rotate(-viewerYaw, 0.0F, 1.0F, 0.0F);
         GlStateManager.rotate((float)(isThirdPersonFrontal ? -1 : 1) * viewerPitch, 1.0F, 0.0F, 0.0F);
         //GlStateManager.rotate(new Quaternion(0.707f, 0, 0, 0.707f));
-        GlStateManager.scale(-0.025F, -0.025F, 0); // Z is 0 to prevent weirdness
+        GlStateManager.scale(-0.025F, -0.025F, 1); // Z is 0 to prevent weirdness
         GlStateManager.disableLighting();
         GlStateManager.depthMask(false);
 

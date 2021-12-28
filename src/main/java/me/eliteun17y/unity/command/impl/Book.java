@@ -29,6 +29,12 @@ public class Book extends Command {
         if(mc.player.getHeldItem(EnumHand.OFF_HAND).getItem() == Items.WRITABLE_BOOK) {
             book = mc.player.getHeldItem(EnumHand.OFF_HAND);
         }
+        if(mc.player.getHeldItem(EnumHand.MAIN_HAND).getItem() == Items.WRITTEN_BOOK) {
+            book = mc.player.getHeldItem(EnumHand.MAIN_HAND);
+        }
+        if(mc.player.getHeldItem(EnumHand.OFF_HAND).getItem() == Items.WRITTEN_BOOK) {
+            book = mc.player.getHeldItem(EnumHand.OFF_HAND);
+        }
         if(book == null) {
             ChatUtil.sendClientMessage("You must have a book in your hand!");
             return;
@@ -49,7 +55,7 @@ public class Book extends Command {
                         ChatUtil.sendClientMessage("Signed book.");
                     }
                 }
-                return;
+                break;
             case "write":
                 if(args.length > 1) {
                     if(book.hasTagCompound()) {
@@ -75,7 +81,12 @@ public class Book extends Command {
                         ChatUtil.sendClientMessage("Wrote to book.");
                     }
                 }
-                return;
+                break;
+            case "read":
+                if(book.hasTagCompound()) {
+                    ChatUtil.sendClientMessage(book.getTagCompound().toString());
+                }
+                break;
         }
     }
 }

@@ -21,6 +21,8 @@ public class ModuleButton implements Button {
     public Module module;
     public boolean opened;
     public SettingPanel settingPanel;
+    public float y1;
+    public float panelY;
 
     public ModuleButton(float x, float y, float width, float height, Module module) {
         this.x = x;
@@ -29,6 +31,8 @@ public class ModuleButton implements Button {
         this.height = height;
         this.module = module;
         this.settingPanel = new SettingPanel(module);
+        this.y1 = new ScaledResolution(Minecraft.getMinecraft()).getScaledHeight();
+        this.panelY = (this.y1 / 2) + 110;
     }
 
     public boolean isHovered(int x, int y) {
@@ -61,9 +65,7 @@ public class ModuleButton implements Button {
 
 
             ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
-            float y = sr.getScaledHeight();
-            float panelY = (y / 2) + 110;
-            if(this.y < (y / 2) - 110) return;
+            if(this.y < (y1 / 2) - 110) return;
             RenderHelper.drawFilledRoundedRectangleWithDeadzones((int) (x + (90/2) - width/2), (int) this.y, (int) ((x + (90/2) - width/2) + width), (int) (this.y + height), 8, module.isToggled() ? UIUtil.getPreferredColor().getRGB() : UIUtil.getNormalColor().getRGB(), 0,  panelY);
 
             if(panelY < (this.y + height / 2 - FontManager.instance.robotoLightSmall.getStringHeight(module.getName()) / 2) + FontManager.instance.robotoLightSmall.getStringHeight(module.getName()) && panelY < this.y + height / 2 - FontManager.instance.robotoLightSmall.getStringHeight(module.getName())/2) return;
@@ -75,9 +77,9 @@ public class ModuleButton implements Button {
             }
 
             if(amountOffscreen >= 0) {
-                FontManager.instance.robotoLightSmall.drawStringWithDeadzone(module.getName(), (x + (90.0f / 2) - (FontManager.instance.robotoRegularSmall.getStringWidth(module.getName()) * ((70 - amountOffscreen) / 70)) / 2) / ((70 - amountOffscreen) / 70), (int) (this.y + height / 2 - (FontManager.instance.robotoLightSmall.getStringHeight(module.getName()) * ((70 - amountOffscreen) / 70)) / 2) / ((70 - amountOffscreen) / 70), UIUtil.getFontColor().getRGB(), 0, (y / 2) + 110);
+                FontManager.instance.robotoLightSmall.drawStringWithDeadzone(module.getName(), (x + (90.0f / 2) - (FontManager.instance.robotoRegularSmall.getStringWidth(module.getName()) * ((70 - amountOffscreen) / 70)) / 2) / ((70 - amountOffscreen) / 70), (int) (this.y + height / 2 - (FontManager.instance.robotoLightSmall.getStringHeight(module.getName()) * ((70 - amountOffscreen) / 70)) / 2) / ((70 - amountOffscreen) / 70), UIUtil.getFontColor().getRGB(), 0, (y1 / 2) + 110);
             }else {
-                FontManager.instance.robotoLightSmall.drawStringWithDeadzone(module.getName(), x + (90.0f / 2) - FontManager.instance.robotoLightSmall.getStringWidth(module.getName())/2, (int) this.y + height / 2 - FontManager.instance.robotoLightSmall.getStringHeight(module.getName())/2, UIUtil.getFontColor().getRGB(), 0, (y / 2) + 110);
+                FontManager.instance.robotoLightSmall.drawStringWithDeadzone(module.getName(), x + (90.0f / 2) - FontManager.instance.robotoLightSmall.getStringWidth(module.getName())/2, (int) this.y + height / 2 - FontManager.instance.robotoLightSmall.getStringHeight(module.getName())/2, UIUtil.getFontColor().getRGB(), 0, (y1 / 2) + 110);
 
             }
             if(amountOffscreen >= 0) {

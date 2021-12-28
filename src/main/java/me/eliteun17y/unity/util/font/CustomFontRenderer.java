@@ -1,5 +1,6 @@
 package me.eliteun17y.unity.util.font;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.opengl.GL11;
 
@@ -17,6 +18,10 @@ public class CustomFontRenderer extends CustomFont {
     }
 
     public void drawString(String str, float x, float y, int color) {
+        System.out.println(Minecraft.getMinecraft().getLanguageManager().getCurrentLanguage().getJavaLocale().getDisplayLanguage());
+        if(!Minecraft.getMinecraft().getLanguageManager().getCurrentLanguage().getLanguageCode().startsWith("en")) {
+            str = "Language unsupported";
+        }
         x *= multiplier;
         y *= multiplier;
         GL11.glPushMatrix();

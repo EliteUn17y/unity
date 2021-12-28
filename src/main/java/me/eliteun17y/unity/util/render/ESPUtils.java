@@ -1,13 +1,16 @@
 package me.eliteun17y.unity.util.render;
 
+import me.eliteun17y.unity.util.font.manager.FontManager;
 import me.eliteun17y.unity.util.ui.RenderHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.entity.RenderLivingBase;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.client.renderer.entity.RenderSheep;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
@@ -163,6 +166,7 @@ public class ESPUtils {
                 // Pop the state changes off the attribute stack
                 // to set things back how they were
                 glPopAttrib();
+                glColor4f(1, 1, 1, 1);
                 GlStateManager.enableTexture2D();
                 GlStateManager.enableDepth();
                 break;
