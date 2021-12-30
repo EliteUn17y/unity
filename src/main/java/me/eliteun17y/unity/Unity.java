@@ -13,6 +13,8 @@ import me.eliteun17y.unity.managers.alts.Alt;
 import me.eliteun17y.unity.managers.alts.AltManager;
 import me.eliteun17y.unity.managers.friend.FriendManager;
 import me.eliteun17y.unity.module.ModuleManager;
+import me.eliteun17y.unity.plugin.PluginClassLoader;
+import me.eliteun17y.unity.plugin.PluginLoader;
 import me.eliteun17y.unity.proxy.CommonProxy;
 import me.eliteun17y.unity.ui.authlogin.AuthLogin;
 import me.eliteun17y.unity.ui.clickgui.ClickGUI;
@@ -35,6 +37,7 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Objects;
 import java.util.UUID;
 

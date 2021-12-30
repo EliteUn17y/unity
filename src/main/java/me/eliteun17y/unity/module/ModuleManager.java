@@ -39,6 +39,7 @@ public class ModuleManager {
         // Exploits
 
         modules.add(new AntiLagKick());
+        modules.add(new AutoDupe());
         modules.add(new Disabler());
         modules.add(new EntityControl());
         modules.add(new PacketFlight());
@@ -80,6 +81,7 @@ public class ModuleManager {
         // Player
 
         modules.add(new AntiCrash());
+        modules.add(new AutoWalk());
         modules.add(new Burrow());
         modules.add(new FakePlayer());
         modules.add(new FastPlace());

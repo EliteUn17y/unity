@@ -50,6 +50,7 @@ public class Speed extends Module {
                     if(autoJump.getObject()) {
                         mc.player.jump();
                         mc.player.motionY = height.getFloat();
+                        PlayerUtil.strafe(-1.3);
                     }
                 }
 

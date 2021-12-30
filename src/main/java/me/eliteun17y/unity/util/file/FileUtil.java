@@ -7,10 +7,14 @@ import net.minecraft.client.Minecraft;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Objects;
 
 public class FileUtil {
     public static File unity = new File(Minecraft.getMinecraft().gameDir.getPath() + "/unity");
     public static File configs = new File(Minecraft.getMinecraft().gameDir.getPath() + "/unity/configs");
+    public static File plugins = new File(Minecraft.getMinecraft().gameDir.getPath() + "/unity/plugins");
     public static File auth = new File(unity.getPath() + "/auth.json");
 
     public FileUtil() {
@@ -18,6 +22,8 @@ public class FileUtil {
             unity.mkdirs();
         if(!configs.exists())
             configs.mkdirs();
+        if(!plugins.exists())
+            plugins.mkdirs();
         if(!auth.exists()) {
             try {
                 auth.createNewFile();
@@ -44,5 +50,9 @@ public class FileUtil {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static ArrayList<File> getFilesInDirectory(File dir) {
+        return new ArrayList<>(Arrays.asList(Objects.requireNonNull(dir.listFiles())));
     }
 }
