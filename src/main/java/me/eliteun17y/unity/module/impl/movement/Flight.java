@@ -11,6 +11,7 @@ import me.eliteun17y.unity.util.setting.impl.ModeValue;
 import me.eliteun17y.unity.util.setting.impl.NumberValue;
 import me.eliteun17y.unity.util.time.Timer;
 import me.eliteun17y.unity.util.world.PacketUtil;
+import me.eliteun17y.unity.util.world.TimerUtil;
 import net.minecraft.network.play.client.CPacketEntityAction;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.stats.StatList;
@@ -63,6 +64,7 @@ public class Flight extends Module {
                 PlayerUtil.strafe(mc.player.hurtTime > 0 ? speed.getDouble() : 0.2d);
                 break;
             case "Development":
+                TimerUtil.setSpeed(mc.player.ticksExisted % 2 == 0 ? 1.4f : 1.6f);
                 mc.player.motionY = mc.player.movementInput.jump ? verticalSpeed.getFloat() : mc.player.movementInput.sneak ? -verticalSpeed.getFloat() : 0;
                 PlayerUtil.strafe(speed.getDouble());
                 break;
