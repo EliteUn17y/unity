@@ -6,6 +6,7 @@ import me.eliteun17y.unity.event.impl.EventPacket;
 import me.eliteun17y.unity.event.impl.EventUpdate;
 import me.eliteun17y.unity.module.Category;
 import me.eliteun17y.unity.module.Module;
+import me.eliteun17y.unity.util.chat.ChatUtil;
 import me.eliteun17y.unity.util.player.PlayerUtil;
 import me.eliteun17y.unity.util.setting.impl.ModeValue;
 import me.eliteun17y.unity.util.setting.impl.NumberValue;
@@ -14,7 +15,12 @@ import me.eliteun17y.unity.util.world.PacketUtil;
 import me.eliteun17y.unity.util.world.TimerUtil;
 import net.minecraft.network.play.client.CPacketEntityAction;
 import net.minecraft.network.play.client.CPacketPlayer;
+import net.minecraft.network.play.client.CPacketPlayerTryUseItemOnBlock;
+import net.minecraft.network.play.server.SPacketOpenWindow;
 import net.minecraft.stats.StatList;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import org.lwjgl.input.Keyboard;
 
@@ -64,7 +70,6 @@ public class Flight extends Module {
                 PlayerUtil.strafe(mc.player.hurtTime > 0 ? speed.getDouble() : 0.2d);
                 break;
             case "Development":
-                TimerUtil.setSpeed(mc.player.ticksExisted % 2 == 0 ? 1.4f : 1.6f);
                 mc.player.motionY = mc.player.movementInput.jump ? verticalSpeed.getFloat() : mc.player.movementInput.sneak ? -verticalSpeed.getFloat() : 0;
                 PlayerUtil.strafe(speed.getDouble());
                 break;
@@ -75,6 +80,8 @@ public class Flight extends Module {
     public void onPacket(EventPacket event) {
         switch(mode.getMode()) {
             case "Development":
+                if(event.getPacket() instanceof SPacketOpenWindow)
+                    event.setCancelled(true);
                 if(event.getDirection() == Direction.OUTGOING) {
                     if(event.getPacket() instanceof CPacketPlayer) {
                         ObfuscationReflectionHelper.setPrivateValue(CPacketPlayer.class, (CPacketPlayer) event.getPacket(), false, "field_149474_g");

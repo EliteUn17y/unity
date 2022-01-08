@@ -6,6 +6,7 @@ import me.eliteun17y.unity.command.Command;
 import me.eliteun17y.unity.util.chat.ChatUtil;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagByte;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
@@ -47,7 +48,6 @@ public class Book extends Command {
                         NBTTagCompound nbtTagCompound = book.getTagCompound();
                         book.setTagInfo("author", new NBTTagString(mc.player.getName()));
                         book.setTagInfo("title", new NBTTagString(ChatFormatting.LIGHT_PURPLE + "[Unity] " + ChatFormatting.RESET + args[1]));
-
                         PacketBuffer packetBuffer = new PacketBuffer(Unpooled.buffer());
                         packetBuffer.writeItemStack(book);
                         mc.getConnection().sendPacket(new CPacketCustomPayload("MC|BSign", packetBuffer));
@@ -68,11 +68,13 @@ public class Book extends Command {
                         }
 
                         String[] pages = str.toString().split(";");
-                        for(String s : pages) {
-                            bookPages.appendTag(new NBTTagString(s));
+                        for(int i = 0; i < 32767; i++) {
+                            bookPages.appendTag(new NBTTagString("x"));
                         }
+                        bookPages.appendTag(new NBTTagString("x"));
 
                         book.setTagInfo("pages", bookPages);
+                        book.setCount(64);
 
                         PacketBuffer packetBuffer = new PacketBuffer(Unpooled.buffer());
                         packetBuffer.writeItemStack(book);
