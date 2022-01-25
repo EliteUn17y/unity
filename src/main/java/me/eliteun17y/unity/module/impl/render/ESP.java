@@ -92,6 +92,7 @@ public class ESP extends Module {
 
     @Subscribe
     public void onRenderWorld(EventRenderWorld event) {
+        if(mc.player.ticksExisted <= 10) return; // This is to prevent a weird rendering issue
         GL11.glColor3d(1, 1, 1);
         for(TileEntity tileEntity : mc.world.loadedTileEntityList) {
             if(chests.getObject()) {

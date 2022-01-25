@@ -45,6 +45,7 @@ public class Flight extends Module {
                 double z = PlayerUtil.getDirection()[1] * 1;
                 PacketUtil.sendSilentPacket(new CPacketPlayer.Position(mc.player.posX + x, mc.player.posY, mc.player.posZ + z, true));
                 PacketUtil.sendSilentPacket(new CPacketPlayer.Position(mc.player.posX + 17, mc.player.posY, mc.player.posZ + 17, true));
+                mc.player.setPosition(mc.player.posX + x, mc.player.posY, mc.player.posZ + z);
                 break;
             case "Verus":
                 PlayerUtil.damage(1);
@@ -70,8 +71,8 @@ public class Flight extends Module {
                 PlayerUtil.strafe(mc.player.hurtTime > 0 ? speed.getDouble() : 0.2d);
                 break;
             case "Development":
-                mc.player.motionY = mc.player.movementInput.jump ? verticalSpeed.getFloat() : mc.player.movementInput.sneak ? -verticalSpeed.getFloat() : 0;
                 PlayerUtil.strafe(speed.getDouble());
+                mc.player.motionY = mc.player.movementInput.jump ? verticalSpeed.getFloat() : mc.player.movementInput.sneak ? -verticalSpeed.getFloat() : 0;
                 break;
         }
     }

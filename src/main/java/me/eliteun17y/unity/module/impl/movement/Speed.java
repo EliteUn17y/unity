@@ -6,11 +6,18 @@ import me.eliteun17y.unity.event.impl.EventPacket;
 import me.eliteun17y.unity.event.impl.EventUpdate;
 import me.eliteun17y.unity.module.Category;
 import me.eliteun17y.unity.module.Module;
+import me.eliteun17y.unity.util.chat.ChatUtil;
 import me.eliteun17y.unity.util.player.PlayerUtil;
 import me.eliteun17y.unity.util.setting.impl.BooleanValue;
 import me.eliteun17y.unity.util.setting.impl.ModeValue;
 import me.eliteun17y.unity.util.setting.impl.NumberValue;
 import me.eliteun17y.unity.util.world.TimerUtil;
+import net.minecraft.network.play.client.CPacketPlayerDigging;
+import net.minecraft.network.play.client.CPacketPlayerTryUseItemOnBlock;
+import net.minecraft.network.play.server.SPacketBlockChange;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import org.lwjgl.input.Keyboard;
 
 public class Speed extends Module {
@@ -50,9 +57,10 @@ public class Speed extends Module {
                     if(autoJump.getObject()) {
                         mc.player.jump();
                         mc.player.motionY = height.getFloat();
-                        PlayerUtil.strafe(-1.3);
+                        PlayerUtil.strafe(-1);
                     }
                 }
+
 
                 /*TimerUtil.setSpeed(mc.player.ticksExisted % 4 == 0 ? 4 : 8f);
                 if(mc.player.ticksExisted % 16 == 0)
@@ -95,7 +103,6 @@ public class Speed extends Module {
 
     @Subscribe
     public void onPacket(EventPacket event) {
-
     }
 
     @Override

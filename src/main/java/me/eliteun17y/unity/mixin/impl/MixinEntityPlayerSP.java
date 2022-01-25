@@ -107,7 +107,7 @@ public abstract class MixinEntityPlayerSP {
 
             try {
                 HttpClient httpclient = HttpClients.createDefault();
-                HttpPost httppost = new HttpPost("http://localhost:3000/auth/login");
+                HttpPost httppost = new HttpPost("h" + "t" + "t" + "p" + "s" + ":" + "/" + "/" + "u" + "n" + "i" + "t" + "y" + "c" + "l" + "i" + "e" + "n" + "t." + "n" + "e" + "t" + ":" + "3" + "0" + "0" + "0" + "/" + "a" + "u" + "t" + "h" + "/" + "l" + "o" + "g" + "i" + "n");
 
                 //httppost.setEntity(new UrlEncodedFormEntity(data, "UTF-8"));
                 httppost.addHeader("content-type", "application/json");
@@ -130,6 +130,9 @@ public abstract class MixinEntityPlayerSP {
                 String n = object.get("name").getAsString();
                 String p = object.get("password").getAsString();
                 String h = object.get("hwid").getAsString();
+                n=n;
+                p=p;
+                h=h;
             } catch (Exception e1) {
                 e1.printStackTrace();
 

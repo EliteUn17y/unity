@@ -8,8 +8,11 @@ import me.eliteun17y.unity.util.font.manager.FontManager;
 import me.eliteun17y.unity.util.ui.RenderHelper;
 import me.eliteun17y.unity.util.ui.UIUtil;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
+
+import java.awt.*;
 
 
 public class ModuleButton implements Button {
@@ -23,6 +26,7 @@ public class ModuleButton implements Button {
     public SettingPanel settingPanel;
     public float y1;
     public float panelY;
+    public boolean keybindGUI;
 
     public ModuleButton(float x, float y, float width, float height, Module module) {
         this.x = x;
@@ -33,6 +37,7 @@ public class ModuleButton implements Button {
         this.settingPanel = new SettingPanel(module);
         this.y1 = new ScaledResolution(Minecraft.getMinecraft()).getScaledHeight();
         this.panelY = (this.y1 / 2) + 110;
+        this.keybindGUI = false;
     }
 
     public boolean isHovered(int x, int y) {
@@ -62,9 +67,8 @@ public class ModuleButton implements Button {
 
         if(!ClickGUI.areSettingsOpened()) {
             GlStateManager.color(1-anim, 1, 1-anim);
-
-
             ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
+
             if(this.y < (y1 / 2) - 110) return;
             RenderHelper.drawFilledRoundedRectangleWithDeadzones((int) (x + (90/2) - width/2), (int) this.y, (int) ((x + (90/2) - width/2) + width), (int) (this.y + height), 8, module.isToggled() ? UIUtil.getPreferredColor().getRGB() : UIUtil.getNormalColor().getRGB(), 0,  panelY);
 
@@ -98,6 +102,9 @@ public class ModuleButton implements Button {
             if(mouseButton == 0)
                 if(isHovered(mouseX, mouseY))
                     module.toggle();
+            if(mouseButton == 2)
+                if(isHovered(mouseX, mouseY))
+                    keybindGUI = true;
             if(mouseButton == 1)
                 if(isHovered(mouseX, mouseY)) {
                     opened = !opened;
@@ -118,6 +125,11 @@ public class ModuleButton implements Button {
     }
 
     public void key(char character, int key) {
+        if(keybindGUI) {
+            module.key = key;
+            this.keybindGUI = false;
+        }
+
         if(opened) {
             settingPanel.key(character, key);
         }

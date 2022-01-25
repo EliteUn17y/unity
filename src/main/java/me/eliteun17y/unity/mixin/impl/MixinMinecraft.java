@@ -3,6 +3,7 @@ package me.eliteun17y.unity.mixin.impl;
 import me.eliteun17y.unity.Unity;
 import me.eliteun17y.unity.ui.authlogin.AuthLogin;
 import me.eliteun17y.unity.ui.menu.MainMenu;
+import me.eliteun17y.unity.ui.setup.Setup;
 import me.eliteun17y.unity.util.Reference;
 import me.eliteun17y.unity.util.config.ConfigUtil;
 import me.eliteun17y.unity.util.file.FileUtil;
@@ -28,11 +29,15 @@ public abstract class MixinMinecraft {
     @Inject(method = "displayGuiScreen", at = @At("HEAD"), cancellable = true)
     public void displayGuiScreen(GuiScreen guiScreen, CallbackInfo callbackInfo) {
         if(guiScreen instanceof GuiMainMenu || (guiScreen == null && Minecraft.getMinecraft().world == null)) {
+            callbackInfo.cancel();
+            if(Unity.instance.firstRun) {
+                Minecraft.getMinecraft().displayGuiScreen(new Setup());
+                return;
+            }
             if((!FileUtil.getContent(FileUtil.auth).contains("username")) || Unity.instance.user == null || Objects.equals(Unity.instance.user.username, ""))
                 Minecraft.getMinecraft().displayGuiScreen(new AuthLogin());
             else
                 Minecraft.getMinecraft().displayGuiScreen(new MainMenu());
-            callbackInfo.cancel();
         }
     }
 

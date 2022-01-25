@@ -11,6 +11,6 @@ public class AP extends GuiScreen {
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         ScaledResolution sr = new ScaledResolution(mc);
         drawRect(0, 0, sr.getScaledWidth(), sr.getScaledHeight(), new Color(255, 0, 0).getRGB());
-        FontManager.instance.robotoBlack.drawString("Fuck you, piracy is no joke.", 0, 0, new Color(0, 0, 0).getRGB());
+        FontManager.instance.robotoBlack.drawString("piracy is no joke.", 0, 0, new Color(0, 0, 0).getRGB());
     }
 }

@@ -1,5 +1,6 @@
 package me.eliteun17y.unity.util.font;
 
+import me.eliteun17y.unity.util.font.manager.FontManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.opengl.GL11;
@@ -18,6 +19,10 @@ public class CustomFontRenderer extends CustomFont {
     }
 
     public void drawString(String str, float x, float y, int color) {
+        if(FontManager.instance.mcFont) {
+            Minecraft.getMinecraft().fontRenderer.drawString(str, (int) x, (int) y, color);
+            return;
+        }
         x *= multiplier;
         y *= multiplier;
         GL11.glPushMatrix();
@@ -111,6 +116,9 @@ public class CustomFontRenderer extends CustomFont {
     }
 
     public float getStringWidth(String str) {
+        if(FontManager.instance.mcFont) {
+            return Minecraft.getMinecraft().fontRenderer.getStringWidth(str);
+        }
         float width = 0;
         for(char c : str.toCharArray()) {
             Character character = returnCharacter(c);
@@ -120,6 +128,9 @@ public class CustomFontRenderer extends CustomFont {
     }
 
     public float getStringHeight(String str) {
+        if(FontManager.instance.mcFont) {
+            return Minecraft.getMinecraft().fontRenderer.FONT_HEIGHT;
+        }
         float height = 0;
 
         for(char c : str.toCharArray()) {

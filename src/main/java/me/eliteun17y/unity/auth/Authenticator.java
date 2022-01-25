@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Authenticator {
-    public static String authToken = "aHR0cDovL2xvY2FsaG9zdDozMDAwL2F1dGgvbG9naW4=";
+    public static String authToken = "aHR0cHM6Ly91bml0eWNsaWVudC5uZXQ6MzAwMC9hdXRoL2xvZ2lu";
 
     public static AuthenticatedUser getUser(String username, String password, String hwid) {
         AuthenticatedUser user = new AuthenticatedUser("", "", "");
@@ -27,8 +27,8 @@ public class Authenticator {
         data.add(new BasicNameValuePair("password", password));
         data.add(new BasicNameValuePair("hwid", hwid));
         try {
-            HttpResponse httpResponse = WebUtil.post(data, "https://ath.unityclient.net");
-            String d = new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent())).lines().collect(Collectors.joining());
+            String httpResponse = WebUtil.post(data, "https://auth.unityclient.net");
+            String d = httpResponse;
             JsonParser jsonParser = new JsonParser();
             JsonElement jsonElement = jsonParser.parse(d);
             JsonObject object = jsonElement.getAsJsonObject();
@@ -49,8 +49,8 @@ public class Authenticator {
         data.add(new BasicNameValuePair("password", password));
         data.add(new BasicNameValuePair("hwid", hwid));
         try {
-            HttpResponse httpResponse = WebUtil.post(data, "https://ath.unityclient.net");
-            String d = new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent())).lines().collect(Collectors.joining());
+            String httpResponse = WebUtil.post(data, "https://ath.unityclient.net");
+            String d = httpResponse;
             JsonParser jsonParser = new JsonParser();
             JsonElement jsonElement = jsonParser.parse(d);
             JsonObject object = jsonElement.getAsJsonObject();

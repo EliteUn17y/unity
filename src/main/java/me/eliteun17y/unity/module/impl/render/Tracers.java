@@ -13,6 +13,10 @@ import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.network.login.client.CPacketLoginStart;
+import net.minecraft.network.play.client.CPacketChatMessage;
+import net.minecraft.network.play.server.SPacketDestroyEntities;
+import net.minecraft.network.play.server.SPacketRemoveEntityEffect;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import org.lwjgl.input.Keyboard;
@@ -46,6 +50,7 @@ public class Tracers extends Module {
 
     @Subscribe
     public void onRenderWorld(EventRenderWorld event) {
+        if(mc.player.ticksExisted <= 10) return; // This is to prevent a weird rendering issue
         boolean oldBobbing = mc.gameSettings.viewBobbing;
         mc.gameSettings.viewBobbing = false;
 

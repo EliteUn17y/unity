@@ -12,7 +12,7 @@ import java.util.Calendar;
 
 public class Greeting extends Widget {
     public Greeting() {
-        super("Greeting", "Gives you a nice message based on the time, e.g. \"Good morning, EliteUn17y\"", 0, 0, 0, 0);
+        super("Greeting", "Gives you a nice message based on the time.", 0, 0, 0, 0);
     }
 
     @Subscribe

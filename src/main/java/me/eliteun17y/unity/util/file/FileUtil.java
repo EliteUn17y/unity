@@ -2,6 +2,7 @@ package me.eliteun17y.unity.util.file;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
+import me.eliteun17y.unity.Unity;
 import net.minecraft.client.Minecraft;
 
 import java.io.File;
@@ -16,6 +17,7 @@ public class FileUtil {
     public static File configs = new File(Minecraft.getMinecraft().gameDir.getPath() + "/unity/configs");
     public static File plugins = new File(Minecraft.getMinecraft().gameDir.getPath() + "/unity/plugins");
     public static File auth = new File(unity.getPath() + "/auth.json");
+    public static File notFirstRun = new File(unity.getPath() + "/notfirstrun");
 
     public FileUtil() {
         if(!unity.exists())
@@ -24,6 +26,14 @@ public class FileUtil {
             configs.mkdirs();
         if(!plugins.exists())
             plugins.mkdirs();
+        if(!notFirstRun.exists()) {
+            Unity.instance.firstRun = true;
+            try {
+                notFirstRun.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         if(!auth.exists()) {
             try {
                 auth.createNewFile();

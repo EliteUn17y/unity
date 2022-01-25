@@ -9,6 +9,8 @@ import java.util.Objects;
 public class FontManager {
     public static FontManager instance;
 
+    public boolean mcFont;
+
     public FontManager getInstance() {
         return instance;
     }

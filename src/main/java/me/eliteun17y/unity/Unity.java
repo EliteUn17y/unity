@@ -63,6 +63,7 @@ public class Unity {
     public AuthenticatedUser user;
 
     public boolean loaded;
+    public boolean firstRun;
 
     @EventHandler
     public void PreInit(FMLPreInitializationEvent event) {
@@ -78,6 +79,8 @@ public class Unity {
         new FontManager();
         new FileUtil();
         new TPSUtil();
+
+        ConfigUtil.loadUI(new File(FileUtil.unity.getPath() + "/temp.json"));
 
         if(FileUtil.getContent(FileUtil.auth).contains("username")) {
             try {

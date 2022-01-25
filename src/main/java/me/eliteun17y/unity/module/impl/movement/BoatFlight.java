@@ -10,6 +10,7 @@ import me.eliteun17y.unity.util.chat.ChatUtil;
 import me.eliteun17y.unity.util.player.PlayerUtil;
 import me.eliteun17y.unity.util.setting.impl.ModeValue;
 import me.eliteun17y.unity.util.setting.impl.NumberValue;
+import me.eliteun17y.unity.util.world.PacketUtil;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.network.play.client.CPacketVehicleMove;
 import net.minecraft.util.EnumHand;
@@ -41,6 +42,9 @@ public class BoatFlight extends Module {
                     mc.player.getRidingEntity().motionY = mc.player.movementInput.jump ? verticalSpeed.getFloat() : mc.player.movementInput.sneak ? -verticalSpeed.getFloat() : mc.player.ticksExisted % 2 == 0 ? 0.1 : -0.1;
                     PlayerUtil.strafe(speed.getDouble());
                     PlayerUtil.strafe(mc.player.getRidingEntity(), speed.getDouble());
+                    mc.player.setPosition(0, 0, 0);
+                    mc.player.getRidingEntity().setPosition(0, 0, 0);
+                    PacketUtil.sendSilentPacket(new CPacketVehicleMove(mc.player));
                 }
                 break;
         }

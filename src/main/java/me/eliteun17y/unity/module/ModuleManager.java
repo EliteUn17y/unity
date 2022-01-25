@@ -4,6 +4,7 @@ import me.eliteun17y.unity.Unity;
 import me.eliteun17y.unity.event.Subscribe;
 import me.eliteun17y.unity.event.impl.EventValueChange;
 import me.eliteun17y.unity.module.impl.combat.AutoCrystal;
+import me.eliteun17y.unity.module.impl.combat.FastBow;
 import me.eliteun17y.unity.module.impl.combat.KillAura;
 import me.eliteun17y.unity.module.impl.exploits.*;
 import me.eliteun17y.unity.module.impl.hidden.HUDEditor;
@@ -20,8 +21,6 @@ import me.eliteun17y.unity.util.setting.impl.NumberValue;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
 
 public class ModuleManager {
@@ -34,6 +33,7 @@ public class ModuleManager {
         // Combat
 
         modules.add(new AutoCrystal());
+        modules.add(new FastBow());
         modules.add(new KillAura());
 
         // Exploits

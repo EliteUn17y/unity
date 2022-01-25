@@ -5,17 +5,28 @@ import me.eliteun17y.unity.event.impl.EventTravel;
 import me.eliteun17y.unity.module.Category;
 import me.eliteun17y.unity.module.Module;
 import me.eliteun17y.unity.util.player.PlayerUtil;
+import me.eliteun17y.unity.util.setting.impl.BooleanValue;
 import me.eliteun17y.unity.util.setting.impl.ModeValue;
 import me.eliteun17y.unity.util.setting.impl.NumberValue;
+import net.minecraft.network.play.client.CPacketEntityAction;
 import org.lwjgl.input.Keyboard;
 
 public class ElytraFlight extends Module {
     public ModeValue mode = new ModeValue(this, "Mode", "Motion", "Motion");
     public NumberValue speed = new NumberValue(this, "Speed", 0.5, 5, 0, 0.1);
     public NumberValue verticalSpeed = new NumberValue(this, "Vertical Speed", 0.5, 5, 0, 0.1);
+    public BooleanValue instantFly = new BooleanValue(this, "Instant Fly", true);
 
     public ElytraFlight() {
         super("Elytra Flight", "Allows you to infinitely fly with an elytra.", Category.MOVEMENT, Keyboard.KEY_NONE);
+    }
+
+    @Override
+    public void onEnable() {
+        super.onEnable();
+        if(instantFly.getObject()) {
+            mc.getConnection().sendPacket(new CPacketEntityAction(mc.player, CPacketEntityAction.Action.START_FALL_FLYING));
+        }
     }
 
     @Subscribe

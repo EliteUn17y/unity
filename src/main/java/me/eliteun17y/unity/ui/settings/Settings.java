@@ -4,7 +4,9 @@ import me.eliteun17y.unity.ui.clickgui.components.button.Button;
 import me.eliteun17y.unity.ui.clickgui.components.button.impl.setting.SettingButton;
 import me.eliteun17y.unity.ui.clickgui.components.button.impl.setting.impl.ColorButton;
 import me.eliteun17y.unity.ui.clickgui.components.button.impl.setting.impl.ModeButton;
+import me.eliteun17y.unity.ui.clickgui.components.button.impl.setting.impl.TickboxButton;
 import me.eliteun17y.unity.util.font.manager.FontManager;
+import me.eliteun17y.unity.util.setting.impl.BooleanValue;
 import me.eliteun17y.unity.util.setting.impl.ColorValue;
 import me.eliteun17y.unity.util.setting.impl.ModeValue;
 import me.eliteun17y.unity.util.ui.UIUtil;
@@ -31,7 +33,7 @@ public class Settings extends GuiScreen {
 
         buttons.add(new ColorButton(x + FontManager.instance.robotoRegularSmall.getStringWidth("Preferred Color") + 5, y, new ColorValue("Preferred Color", UIUtil.preferredColor)));
         y += 20;
-        buttons.add(new ModeButton(x + FontManager.instance.robotoRegularSmall.getStringWidth("Theme") + 5, y, new ModeValue("Theme", "Light", "Light", "Dark")));
+        buttons.add(new ModeButton(x + FontManager.instance.robotoRegularSmall.getStringWidth("Theme") + 5, y, new ModeValue("Theme", UIUtil.darkMode ? "Dark" : "Light", "Light", "Dark")));
     }
 
 
@@ -50,8 +52,6 @@ public class Settings extends GuiScreen {
 
         // Settings
 
-
-
         for(SettingButton button : buttons) {
             switch(button.value.getName()) {
                 case "Preferred Color":
@@ -59,6 +59,9 @@ public class Settings extends GuiScreen {
                     break;
                 case "Theme":
                     UIUtil.darkMode = ((ModeValue) button.value).getMode().equalsIgnoreCase("Dark") ? true : false;
+                    break;
+                case "Minecraft Font":
+                    FontManager.instance.mcFont = (boolean) button.value.getObject();
                     break;
             }
             FontManager.instance.robotoRegularSmall.drawString(button.value.name, button.x - FontManager.instance.robotoRegularSmall.getStringWidth(button.value.name) - 5, button.y, UIUtil.getFontColor().getRGB());

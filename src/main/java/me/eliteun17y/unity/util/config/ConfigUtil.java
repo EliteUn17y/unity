@@ -8,6 +8,7 @@ import me.eliteun17y.unity.module.Module;
 import me.eliteun17y.unity.util.file.FileUtil;
 import me.eliteun17y.unity.util.setting.Value;
 import me.eliteun17y.unity.util.setting.impl.*;
+import me.eliteun17y.unity.util.ui.UIUtil;
 import me.eliteun17y.unity.widgets.Widget;
 import net.minecraft.client.renderer.entity.RenderLivingBase;
 
@@ -27,9 +28,14 @@ public class ConfigUtil {
         JsonObject parent = new JsonObject();
         JsonObject modules = new JsonObject();
         JsonObject widgets = new JsonObject();
+        JsonObject ui = new JsonObject();
+        ui.addProperty("darkMode", UIUtil.darkMode);
+        ui.addProperty("preferredColor", UIUtil.getPreferredColor().getRGB());
+
         for(Module module : Unity.instance.moduleManager.getModules()) {
             JsonObject obj = new JsonObject();
             obj.addProperty("toggled", module.isToggled());
+            obj.addProperty("bind", module.getKey());
             JsonObject values = new JsonObject();
             for(Value value : module.getValues()) {
                 if(value instanceof BooleanValue) {
@@ -82,7 +88,26 @@ public class ConfigUtil {
 
         parent.add("modules", modules);
         parent.add("widgets", widgets);
+        parent.add("ui", ui);
         FileUtil.writeContent(file, parent.toString());
+        return true;
+    }
+
+    public static boolean loadUI(File file) {
+        if(!file.exists()) {
+            return false;
+        }
+
+        JsonParser jsonParser = new JsonParser();
+        JsonElement jsonElement = jsonParser.parse(FileUtil.getContent(file));
+        JsonObject object = jsonElement.getAsJsonObject();
+        JsonObject ui1 = object.getAsJsonObject("ui");
+        UIUtil.darkMode = ui1.get("darkMode").getAsBoolean();
+        float r1 = ((ui1.get("preferredColor").getAsInt() >> 16) & 0xff);
+        float g1 = ((ui1.get("preferredColor").getAsInt( ) >>  8) & 0xff);
+        float b1 = ((ui1.get("preferredColor").getAsInt()          ) & 0xff);
+        float a1 = ((ui1.get("preferredColor").getAsInt() >> 24) & 0xff);
+        UIUtil.preferredColor = new Color(r1 / 255, g1 / 255, b1 / 255, a1 / 255);
         return true;
     }
 
@@ -105,6 +130,7 @@ public class ConfigUtil {
             JsonObject values = m.getAsJsonObject("values");
             if(module.isToggled() != m.get("toggled").getAsBoolean())
                 module.setToggled(m.get("toggled").getAsBoolean());
+            module.key = m.get("bind").getAsInt();
             for(int i = 0; i < module.getValues().size(); i++) {
                 Value value = module.getValues().get(i);
                 JsonElement v = values.get(value.getName().replace(" ", "-"));
