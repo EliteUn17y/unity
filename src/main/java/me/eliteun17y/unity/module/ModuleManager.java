@@ -43,6 +43,8 @@ public class ModuleManager {
         modules.add(new Disabler());
         modules.add(new EntityControl());
         modules.add(new PacketFlight());
+        modules.add(new PlayerFinder());
+        modules.add(new PortalGodMode());
         modules.add(new QuickBreak());
 
         // Misc
@@ -70,6 +72,7 @@ public class ModuleManager {
 
         modules.add(new ClickGUI());
         modules.add(new ESP());
+        modules.add(new Freecam());
         modules.add(new Fullbright());
         modules.add(new HUD());
         modules.add(new Nametags());

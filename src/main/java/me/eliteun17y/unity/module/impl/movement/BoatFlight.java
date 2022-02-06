@@ -13,6 +13,7 @@ import me.eliteun17y.unity.util.setting.impl.NumberValue;
 import me.eliteun17y.unity.util.world.PacketUtil;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.network.play.client.CPacketVehicleMove;
+import net.minecraft.network.play.server.SPacketSetSlot;
 import net.minecraft.util.EnumHand;
 import org.lwjgl.input.Keyboard;
 

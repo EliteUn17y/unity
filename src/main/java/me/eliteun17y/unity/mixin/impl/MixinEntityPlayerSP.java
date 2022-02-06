@@ -10,6 +10,8 @@ import me.eliteun17y.unity.auth.HWID;
 import me.eliteun17y.unity.auth.WebUtil;
 import me.eliteun17y.unity.command.Command;
 import me.eliteun17y.unity.event.Era;
+import me.eliteun17y.unity.event.impl.EventBlockPush;
+import me.eliteun17y.unity.event.impl.EventMove;
 import me.eliteun17y.unity.event.impl.EventPlayerMotionUpdate;
 import me.eliteun17y.unity.event.impl.EventUpdate;
 import me.eliteun17y.unity.ui.ap.AP;
@@ -19,6 +21,7 @@ import me.eliteun17y.unity.util.time.Timer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiMemoryErrorScreen;
+import net.minecraft.entity.MoverType;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
@@ -35,6 +38,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -181,5 +185,24 @@ public abstract class MixinEntityPlayerSP {
                 }
             }
         }
+    }
+
+    @Inject(method = "move", at = @At("HEAD"), cancellable = true)
+    public void move(MoverType type, double x, double y, double z, CallbackInfo callbackInfo) {
+        EventMove event = new EventMove(type, x, y, z);
+        Unity.EVENT_BUS.post(event);
+        if(event.isCancelled()) {
+            callbackInfo.cancel();
+        }
+    }
+
+
+    @Inject(method = "pushOutOfBlocks(DDD)Z", at = @At("HEAD"), cancellable = true)
+    public void pushOutOfBlocks(double x, double y, double z, CallbackInfoReturnable<Boolean> callbackInfo)
+    {
+        EventBlockPush l_Event = new EventBlockPush();
+        Unity.EVENT_BUS.post(l_Event);
+        if (l_Event.isCancelled())
+            callbackInfo.setReturnValue(false);
     }
 }
