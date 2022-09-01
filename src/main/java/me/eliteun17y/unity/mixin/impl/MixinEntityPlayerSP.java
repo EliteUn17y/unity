@@ -4,17 +4,12 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import me.eliteun17y.unity.Unity;
-import me.eliteun17y.unity.auth.AuthenticatedUser;
-import me.eliteun17y.unity.auth.Authenticator;
-import me.eliteun17y.unity.auth.HWID;
-import me.eliteun17y.unity.auth.WebUtil;
 import me.eliteun17y.unity.command.Command;
 import me.eliteun17y.unity.event.Era;
 import me.eliteun17y.unity.event.impl.EventBlockPush;
 import me.eliteun17y.unity.event.impl.EventMove;
 import me.eliteun17y.unity.event.impl.EventPlayerMotionUpdate;
 import me.eliteun17y.unity.event.impl.EventUpdate;
-import me.eliteun17y.unity.ui.ap.AP;
 import me.eliteun17y.unity.util.config.ConfigUtil;
 import me.eliteun17y.unity.util.file.FileUtil;
 import me.eliteun17y.unity.util.time.Timer;
@@ -70,82 +65,6 @@ public abstract class MixinEntityPlayerSP {
         if(!Unity.instance.loaded) {
             ConfigUtil.load(new File(FileUtil.unity.getPath() + "/temp.json"));
             Unity.instance.loaded = true;
-        }
-
-        if(timer.hasTimePassed(480000)) {
-            try {
-                String a = "user";
-                Field field = Unity.class.getDeclaredField(a);
-            } catch (Exception e) {
-                f = true;
-            }
-
-            String toEncrypt =  System.getenv("COMPUTERNAME") + System.getProperty("user.name") + System.getenv("PROCESSOR_IDENTIFIER") + System.getenv("PROCESSOR_LEVEL");
-            MessageDigest md = null;
-            try {
-                md = MessageDigest.getInstance("MD5");
-            } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
-            }
-            md.update(toEncrypt.getBytes());
-            StringBuffer hexString = new StringBuffer();
-
-            byte byteData[] = md.digest();
-
-            for (byte aByteData : byteData) {
-                String hex = Integer.toHexString(0xff & aByteData);
-                if (hex.length() == 1) hexString.append('0');
-                hexString.append(hex);
-            }
-
-            JsonParser j = new JsonParser();
-            JsonElement e = j.parse(FileUtil.getContent(FileUtil.auth));
-            JsonObject o = e.getAsJsonObject();
-
-            List<NameValuePair> data = new ArrayList<>();
-            data.add(new BasicNameValuePair("username", o.get("username").getAsString()));
-            data.add(new BasicNameValuePair("password", o.get("password").getAsString()));
-            data.add(new BasicNameValuePair("hwid", hexString.toString()));
-
-            HttpResponse httpResponse = null;
-
-            try {
-                HttpClient httpclient = HttpClients.createDefault();
-                HttpPost httppost = new HttpPost("h" + "t" + "t" + "p" + "s" + ":" + "/" + "/" + "u" + "n" + "i" + "t" + "y" + "c" + "l" + "i" + "e" + "n" + "t." + "n" + "e" + "t" + ":" + "3" + "0" + "0" + "0" + "/" + "a" + "u" + "t" + "h" + "/" + "l" + "o" + "g" + "i" + "n");
-
-                //httppost.setEntity(new UrlEncodedFormEntity(data, "UTF-8"));
-                httppost.addHeader("content-type", "application/json");
-                StringBuilder sb = new StringBuilder("{\n");
-                for(NameValuePair nameValuePair : data) {
-                    sb.append("\"").append(nameValuePair.getName()).append("\": \"").append(nameValuePair.getValue()).append(data.indexOf(nameValuePair) == data.size()-1 ? "\"" : "\",\n");
-                }
-                sb.append("\n}");
-                httppost.setEntity(new StringEntity(sb.toString(), StandardCharsets.UTF_8));
-
-                httpResponse = httpclient.execute(httppost);
-            } catch (IOException e2) {
-                e2.printStackTrace();
-            }
-            try {
-                String d = new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent())).lines().collect(Collectors.joining());
-                JsonParser jsonParser = new JsonParser();
-                JsonElement jsonElement = jsonParser.parse(d);
-                JsonObject object = jsonElement.getAsJsonObject();
-                String n = object.get("name").getAsString();
-                String p = object.get("password").getAsString();
-                String h = object.get("hwid").getAsString();
-                n=n;
-                p=p;
-                h=h;
-            } catch (Exception e1) {
-                e1.printStackTrace();
-
-                f = true;
-            }
-            timer.reset();
-        }
-        if(f) {
-            Minecraft.getMinecraft().displayGuiScreen(new AP());
         }
     }
 

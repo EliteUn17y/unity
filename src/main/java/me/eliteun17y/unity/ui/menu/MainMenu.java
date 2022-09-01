@@ -91,8 +91,7 @@ public class MainMenu extends GuiScreen {
             yPos += FontManager.instance.robotoRegularSmall.getStringHeight(str);
         }
 
-        FontManager.instance.robotoRegularSmall.drawString(Unity.instance.user.username, 3, sr.getScaledHeight() - FontManager.instance.robotoRegularSmall.getStringHeight(Unity.instance.user.username) - FontManager.instance.robotoRegularSmall.getStringHeight("Made by eliteun17y") - 6, UIUtil.getOppositeFontColor().getRGB());
-        FontManager.instance.robotoRegularSmall.drawString("Made by eliteun17y", 3, sr.getScaledHeight() - FontManager.instance.robotoRegularSmall.getStringHeight("Made by eliteun17y") - 3, UIUtil.getOppositeFontColor().getRGB());
+        FontManager.instance.robotoRegularSmall.drawString("Made by EliteUn17y", 3, sr.getScaledHeight() - FontManager.instance.robotoRegularSmall.getStringHeight("Made by eliteun17y") - 3, UIUtil.getOppositeFontColor().getRGB());
     }
 
     @Override

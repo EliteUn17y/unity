@@ -3,9 +3,6 @@ package me.eliteun17y.unity;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import me.eliteun17y.unity.auth.AuthenticatedUser;
-import me.eliteun17y.unity.auth.Authenticator;
-import me.eliteun17y.unity.auth.HWID;
 import me.eliteun17y.unity.command.CommandManager;
 import me.eliteun17y.unity.event.EventBus;
 import me.eliteun17y.unity.event.EventProcessor;
@@ -16,7 +13,6 @@ import me.eliteun17y.unity.module.ModuleManager;
 import me.eliteun17y.unity.plugin.PluginClassLoader;
 import me.eliteun17y.unity.plugin.PluginLoader;
 import me.eliteun17y.unity.proxy.CommonProxy;
-import me.eliteun17y.unity.ui.authlogin.AuthLogin;
 import me.eliteun17y.unity.ui.clickgui.ClickGUI;
 import me.eliteun17y.unity.util.Reference;
 import me.eliteun17y.unity.util.config.ConfigUtil;
@@ -60,8 +56,6 @@ public class Unity {
     public FriendManager friendManager;
     public AltManager altManager;
 
-    public AuthenticatedUser user;
-
     public boolean loaded;
     public boolean firstRun;
 
@@ -81,19 +75,6 @@ public class Unity {
         new TPSUtil();
 
         ConfigUtil.loadUI(new File(FileUtil.unity.getPath() + "/temp.json"));
-
-        if(FileUtil.getContent(FileUtil.auth).contains("username")) {
-            try {
-                JsonParser jsonParser = new JsonParser();
-                JsonElement jsonElement = jsonParser.parse(FileUtil.getContent(FileUtil.auth));
-                JsonObject object = jsonElement.getAsJsonObject();
-                user = Authenticator.getUser(object.get("username").getAsString(), object.get("password").getAsString(), HWID.getHWID());
-            }catch(Exception e) {
-                user = null;
-            }
-        }
-        else
-            user = null; // We will set this later after asking for the username and password
 
         moduleManager = new ModuleManager();
         windowManager = new WindowManager();
